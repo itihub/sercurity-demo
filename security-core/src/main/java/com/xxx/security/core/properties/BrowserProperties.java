@@ -10,7 +10,16 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
+    /**
+     * 登陆跳转页
+     */
     private String loginPage = "/login.html";
+
+    /**
+     * 登陆类型
+     * 跳转/json返回
+     */
+    private LoginType loginType = LoginType.REDIRECT;
 
 
 }

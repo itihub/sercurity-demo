@@ -35,6 +35,9 @@ public class BrowserSecurityController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    /**
+     * 引入自定义配置
+     */
     @Autowired
     private SecurityProperties securityProperties;
 

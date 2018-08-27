@@ -1,6 +1,8 @@
 package com.xxx.securith.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xxx.security.core.properties.LoginType;
+import com.xxx.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,15 +26,26 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request
             , HttpServletResponse response, Authentication authentication)
             throws ServletException, IOException {
 
-        //设置响应格式
-        response.setContentType("application/json;charset=UTF-8");
-        //将 Authentication 以json形式写回
-        response.getWriter().write(objectMapper.writeValueAsString(authentication));
+        //判断响应类型
+        if (LoginType.JSON.equals(securityProperties.browser.getLoginType())) {
+
+            //设置响应格式
+            response.setContentType("application/json;charset=UTF-8");
+            //将 Authentication 以json形式写回
+            response.getWriter().write(objectMapper.writeValueAsString(authentication));
+        }else {
+            //跳转（默任）
+            super.onAuthenticationSuccess(request, response, authentication);
+        }
+
 
     }
 }
