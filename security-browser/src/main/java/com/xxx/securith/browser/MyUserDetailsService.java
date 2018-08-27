@@ -1,11 +1,13 @@
 package com.xxx.securith.browser;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,11 +20,17 @@ import org.springframework.stereotype.Component;
 public class MyUserDetailsService implements UserDetailsService {
 
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("login username : {}",username);
+        log.info("request to login username : {}",username);
         // TODO: 2018/8/26 进行DB访问查询用户
-        return new User(username, "123456", AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        String password = passwordEncoder.encode("123456");
+        return new User(username, password
+                , true, true, true, true
+                , AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
 
