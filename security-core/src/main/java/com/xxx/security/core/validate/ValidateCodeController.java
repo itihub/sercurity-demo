@@ -33,20 +33,31 @@ public class ValidateCodeController {
      */
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
-    private static final String SEEEION_KEY = "SEEION_KEY_IMAGE_CODE";
+    public static final String SEEEION_KEY = "SEEION_KEY_IMAGE_CODE";
 
     @GetMapping("code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //创建图形验证码
         ImageCode imageCode = createImageCode(request, response);
+        //写入session
         sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, imageCode);
+        //写回 response
         ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
     }
 
+
+    /**
+     * 创建图形验证码
+     * @param request
+     * @param response
+     * @return
+     */
     private ImageCode createImageCode(HttpServletRequest request, HttpServletResponse response) {
 
         //定义生成图片的尺寸
-        int width = 80; //宽 80
-        int height = 32; //高 32
+        int width = 80;
+        int height = 32;
+
         //create the image
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         //获取BufferedImage的Graphics  用来画对象
@@ -75,13 +86,19 @@ public class ValidateCodeController {
         //计算数学公式
         int rnd = calc(verifyCode);
 
-        return new ImageCode(image, rnd, 60);
+        return new ImageCode(image, String.valueOf(rnd), 60);
     }
 
-    //算数运算符
+    /**
+     * 算数运算符
+     */
     private static char[] ops = new char[] {'+', '-', '*'};
 
-    //生成数学公式
+    /**
+     * 生成数学公式
+     * @param rdm
+     * @return
+     */
     private String generateVerifyCode(Random rdm) {
         //生成随机数
         int num1 = rdm.nextInt(10);
@@ -95,7 +112,11 @@ public class ValidateCodeController {
         return exp;
     }
 
-    //计算公式
+    /**
+     * 计算公式
+     * @param exp g公式
+     * @return
+     */
     private static int calc(String exp) {
         try {
             //js引擎

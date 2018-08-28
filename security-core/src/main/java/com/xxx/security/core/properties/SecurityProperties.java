@@ -18,4 +18,12 @@ public class SecurityProperties {
      */
     public BrowserProperties browser = new BrowserProperties();
 
+
+    public BrowserProperties getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(BrowserProperties browser) {
+        this.browser = browser;
+    }
 }
