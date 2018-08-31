@@ -33,7 +33,7 @@ import java.util.Set;
  * @author: Administrator
  * @date: 2018/08/28 0028
  */
-@Component()
+@Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
 
@@ -93,7 +93,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         //是否进行验证标识
         boolean action = false;
         for (String url : urls) {
+            String requestURI = request.getRequestURI();
             //判断是否有需要验证图形验证码的URI
+            if (url.equals(requestURI)) {
+                action = true;
+            }
+            // FIXME: 2018/08/31 0031 修复这块
 //            if (pathMatcher.match(url, request.getRequestURI())) {
 //                action = true;
 //            }

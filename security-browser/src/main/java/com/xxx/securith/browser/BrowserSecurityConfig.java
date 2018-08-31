@@ -75,6 +75,5 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()   //请求方式
                 .authenticated()    //任何请求都需要身份认证
                 .and().csrf().disable();    //关闭跨站请求防护
-
     }
 }
