@@ -2,6 +2,7 @@ package com.xxx.securith.browser;
 
 import com.xxx.securith.browser.authentication.BaseAuthenticationFailureHandle;
 import com.xxx.securith.browser.authentication.BaseAuthenticationSuccessHandle;
+import com.xxx.security.core.filter.ValidateCodeFilter;
 import com.xxx.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +50,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(baseAuthenticationFailureHandle);
+        validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.afterPropertiesSet();
+
         //默认httpBasic认证
 //        http.httpBasic()
 
@@ -56,12 +63,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/authentication/request")
                 .loginProcessingUrl("/authentication/form")
-                .successHandler(baseAuthenticationSuccessHandle)    //使用自定义成功处理器
-                .failureHandler(baseAuthenticationFailureHandle)    //使用自定义失败处理器
+                //使用自定义成功处理器
+                .successHandler(baseAuthenticationSuccessHandle)
+                //使用自定义失败处理器
+                .failureHandler(baseAuthenticationFailureHandle)
                 .and()
                 .authorizeRequests()    //请求授权
-                .antMatchers("/authentication/request"
-                        , securityProperties.browser.getLoginPage()).permitAll()   //匹配此页面无需身份验证
+                //匹配此页面无需身份验证
+                .antMatchers("/authentication/request", "/code/image"
+                        , securityProperties.browser.getLoginPage()).permitAll()
                 .anyRequest()   //请求方式
                 .authenticated()    //任何请求都需要身份认证
                 .and().csrf().disable();    //关闭跨站请求防护

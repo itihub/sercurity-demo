@@ -16,8 +16,8 @@ public class BrowserProperties {
     private String loginPage = "/login.html";
 
     /**
-     * 登陆类型
-     * 跳转/json返回
+     * 错误处理机制：默认跳转/json返回
+     * 默认跳转 即 SpringBoot 默认处理机制 BasicErrorController.class 进行处理
      */
     private LoginType loginType = LoginType.REDIRECT;
 

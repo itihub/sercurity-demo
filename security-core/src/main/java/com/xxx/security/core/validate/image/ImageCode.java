@@ -1,4 +1,4 @@
-package com.xxx.security.core.validate;
+package com.xxx.security.core.validate.image;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
 /**
- * @Description: 图像验证码
+ * @Description: 图像验证码model
  * @Author: JiZhe
  * @CreateDate: 2018/8/27 21:45
  */
@@ -48,5 +48,13 @@ public class ImageCode {
         this.image = image;
         this.code = code;
         this.exprieTime = LocalDateTime.now().plusSeconds(exprieIn);
+    }
+
+    /**
+     * 判断是否过期
+     * @return
+     */
+    public boolean isExpried() {
+        return LocalDateTime.now().isAfter(exprieTime);
     }
 }

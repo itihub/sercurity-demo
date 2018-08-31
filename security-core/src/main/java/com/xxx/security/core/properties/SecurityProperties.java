@@ -18,6 +18,11 @@ public class SecurityProperties {
      */
     public BrowserProperties browser = new BrowserProperties();
 
+    /**
+     * 验证码配置属性
+     */
+    public ValidateCodeProperties code = new ValidateCodeProperties();
+
 
     public BrowserProperties getBrowser() {
         return browser;
@@ -25,5 +30,13 @@ public class SecurityProperties {
 
     public void setBrowser(BrowserProperties browser) {
         this.browser = browser;
+    }
+
+    public ValidateCodeProperties getCode() {
+        return code;
+    }
+
+    public void setCode(ValidateCodeProperties code) {
+        this.code = code;
     }
 }

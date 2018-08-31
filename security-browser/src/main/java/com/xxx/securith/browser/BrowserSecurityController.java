@@ -47,7 +47,7 @@ public class BrowserSecurityController {
      * @param response
      * @return
      */
-    @RequestMapping("authentication/request")
+    @RequestMapping("/authentication/request")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request
             , HttpServletResponse response) throws IOException {

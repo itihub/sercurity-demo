@@ -42,7 +42,7 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
             //将 Authentication 以json形式写回
             response.getWriter().write(objectMapper.writeValueAsString(authentication));
         }else {
-            //跳转（默任）
+            //跳转（默认）
             super.onAuthenticationSuccess(request, response, authentication);
         }
 

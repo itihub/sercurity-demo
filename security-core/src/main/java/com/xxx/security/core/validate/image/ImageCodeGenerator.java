@@ -1,62 +1,48 @@
-package com.xxx.security.core.validate;
+package com.xxx.security.core.validate.image;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import com.xxx.security.core.properties.SecurityProperties;
+import com.xxx.security.core.validate.ValidateCodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 /**
- * @Description:
- * @Author: JiZhe
- * @CreateDate: 2018/8/27 21:52
+ * @description: 图像验证码默认生成
+ * @author: Administrator
+ * @date: 2018/08/31 0031
  */
-@Slf4j
-@RestController
-public class ValidateCodeController {
-
-    /**
-     * 操作session工具类
-     */
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
-    public static final String SEEEION_KEY = "SEEION_KEY_IMAGE_CODE";
-
-    @GetMapping("code/image")
-    public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //创建图形验证码
-        ImageCode imageCode = createImageCode(request, response);
-        //写入session
-        sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, imageCode);
-        //写回 response
-        ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
-    }
+public class ImageCodeGenerator implements ValidateCodeGenerator {
 
 
     /**
-     * 创建图形验证码
-     * @param request
-     * @param response
-     * @return
+     * 引入应用级配置文件
      */
-    private ImageCode createImageCode(HttpServletRequest request, HttpServletResponse response) {
+    @Autowired
+    private SecurityProperties securityProperties;
+
+
+    @Override
+    public ImageCode generateImageCode(ServletWebRequest request) {
 
         //定义生成图片的尺寸
-        int width = 80;
-        int height = 32;
+        /**
+         * 默认配置：不进行配置则使用默认配置
+         * 应用级配置：进行配置文件配置，则覆盖默认配置
+         * 请求级配置：请求级配置，会覆盖应用级配置跟默认配置。优先级最高
+         */
+        int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width"
+                , securityProperties.getCode().getImage().getWidth());
+        int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height"
+                , securityProperties.getCode().getImage().getHeight());
+        int length = securityProperties.getCode().getImage().getLength();
+        //过期时间
+        int expireIn = securityProperties.getCode().getImage().getExpireIn();
 
         //create the image
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -86,8 +72,9 @@ public class ValidateCodeController {
         //计算数学公式
         int rnd = calc(verifyCode);
 
-        return new ImageCode(image, String.valueOf(rnd), 60);
+        return new ImageCode(image, String.valueOf(rnd), expireIn);
     }
+
 
     /**
      * 算数运算符
@@ -127,5 +114,13 @@ public class ValidateCodeController {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public SecurityProperties getSecurityProperties() {
+        return securityProperties;
+    }
+
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
     }
 }
