@@ -2,8 +2,6 @@ package com.xxx.security.core.validate;
 
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.image.ImageCode;
-import com.xxx.security.core.validate.sms.SmsCode;
-import com.xxx.security.core.validate.sms.SmsCodeGenerator;
 import com.xxx.security.core.validate.sms.SmsCodeSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,10 @@ public class ValidateCodeController {
     private SecurityProperties securityProperties;
 
     @Autowired
-    private ValidateCodeGenerator validateCodeGenerator;
+    private ValidateCodeGenerator imageCodeGenerator;
+
+    @Autowired
+    private ValidateCodeGenerator smsCodeGenerator;
 
     @Autowired
     private SmsCodeSender smsCodeSender;
@@ -87,7 +88,7 @@ public class ValidateCodeController {
     @GetMapping("code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //创建图形验证码
-        ImageCode imageCode = (ImageCode) validateCodeGenerator.generate(new ServletWebRequest(request));
+        ImageCode imageCode = (ImageCode) imageCodeGenerator.generate(new ServletWebRequest(request));
         //写入session
         sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, imageCode);
         //写回 response
@@ -105,7 +106,7 @@ public class ValidateCodeController {
     public void createSMSCode(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletRequestBindingException {
         //创建短信验证码
         // FIXME: 2018/09/02 0002 修复一下
-        ValidateCode smsCode = validateCodeGenerator.generate(new ServletWebRequest(request, response));
+        ValidateCode smsCode = smsCodeGenerator.generate(new ServletWebRequest(request, response));
         //写入session
         sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, smsCode);
         //从请求中拿获取发送手机验证码的手机号码
@@ -113,7 +114,6 @@ public class ValidateCodeController {
         //发送短信验证码
         smsCodeSender.send(mobile,smsCode.getCode());
     }
-
 
 
 
