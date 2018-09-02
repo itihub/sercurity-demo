@@ -1,6 +1,7 @@
 package com.xxx.security.core.validate.image;
 
 import com.xxx.security.core.properties.SecurityProperties;
+import com.xxx.security.core.validate.ValidateCode;
 import com.xxx.security.core.validate.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -28,7 +29,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 
 
     @Override
-    public ImageCode generateImageCode(ServletWebRequest request) {
+    public ImageCode generate(ServletWebRequest request) {
 
         //定义生成图片的尺寸
         /**

@@ -4,7 +4,7 @@ import com.xxx.security.core.enums.ValidateCodeExceptionEnum;
 import com.xxx.security.core.exception.ValidateCodeException;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.image.ImageCode;
-import com.xxx.security.core.validate.image.ValidateCodeController;
+import com.xxx.security.core.validate.ValidateCodeController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +59,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Autowired
     private SecurityProperties securityProperties;
 
-    private AntPathMatcher pathMatcher;
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
 
 
     @Override
@@ -95,13 +95,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         for (String url : urls) {
             String requestURI = request.getRequestURI();
             //判断是否有需要验证图形验证码的URI
-            if (url.equals(requestURI)) {
+            if (pathMatcher.match(url, request.getRequestURI())) {
                 action = true;
             }
-            // FIXME: 2018/08/31 0031 修复这块
-//            if (pathMatcher.match(url, request.getRequestURI())) {
-//                action = true;
-//            }
         }
 
         //判断是否需要校验的请求路径
@@ -112,9 +108,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
                 validate(new ServletWebRequest(request));
             }catch (ValidateCodeException e) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                //直接结束 不允许再掉下一个过滤器
+                return;
             }
         }
 
+        //掉下一个过滤器
         filterChain.doFilter(request, response);
 
     }
@@ -145,7 +144,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         }
 
         //判断验证码是否过期
-        if (imageCodeSession.isExpried()) {
+        if (imageCodeSession.isExpire()) {
             //移除过期session
             sessionStrategy.removeAttribute(request, ValidateCodeController.SEEEION_KEY);
             throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_INVALID);

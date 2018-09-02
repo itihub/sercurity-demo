@@ -21,5 +21,10 @@ public class BrowserProperties {
      */
     private LoginType loginType = LoginType.REDIRECT;
 
+    /**
+     * 记住我时间设置
+     */
+    private int rememberMeSeconds = 3600;
+
 
 }

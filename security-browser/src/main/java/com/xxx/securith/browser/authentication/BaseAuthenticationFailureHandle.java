@@ -1,6 +1,7 @@
 package com.xxx.securith.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xxx.securith.browser.support.SimpleResponse;
 import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             , AuthenticationException exception)
             throws IOException, ServletException {
 
+        log.info("登录失败");
+
         //判断响应类型
         if (LoginType.JSON.equals(securityProperties.browser.getLoginType())) {
 
@@ -44,7 +47,7 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             //设置响应格式
             response.setContentType("application/json;charset=UTF-8");
             //将 Authentication 以json形式写回
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         }else {
             //跳转（默任）
             super.onAuthenticationFailure(request, response, exception);

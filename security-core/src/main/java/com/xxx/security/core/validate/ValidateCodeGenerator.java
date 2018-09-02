@@ -1,6 +1,5 @@
 package com.xxx.security.core.validate;
 
-import com.xxx.security.core.validate.image.ImageCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
@@ -11,9 +10,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 public interface ValidateCodeGenerator {
 
     /**
-     * 生成图形验证码
+     * 生成验证码
      * @param request
      * @return
      */
-    ImageCode generateImageCode(ServletWebRequest request);
+    ValidateCode generate(ServletWebRequest request);
 }

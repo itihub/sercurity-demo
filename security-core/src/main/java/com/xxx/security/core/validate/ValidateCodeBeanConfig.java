@@ -1,7 +1,10 @@
-package com.xxx.security.core.validate.image;
+package com.xxx.security.core.validate;
 
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeGenerator;
+import com.xxx.security.core.validate.image.ImageCodeGenerator;
+import com.xxx.security.core.validate.sms.DefaultSmsCodeSender;
+import com.xxx.security.core.validate.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -33,5 +36,17 @@ public class ValidateCodeBeanConfig {
         ImageCodeGenerator codeGenerator = new ImageCodeGenerator();
         codeGenerator.setSecurityProperties(securityProperties);
         return codeGenerator;
+    }
+
+    /**
+     * @see @ConditionalOnMissingBean(SmsCodeSender.class)
+     *      此注解首先寻找是够有实现 SmsCodeSender.class接口，如果有则不执行使用实现接口，
+     *      如果没有使用默认
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public DefaultSmsCodeSender smsCodeGenerator() {
+        return new DefaultSmsCodeSender();
     }
 }
