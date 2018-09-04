@@ -5,6 +5,7 @@ import com.xxx.security.core.validate.image.ImageCode;
 import com.xxx.security.core.validate.sms.SmsCodeSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -49,7 +50,7 @@ public class ValidateCodeController {
     private ValidateCodeGenerator imageCodeGenerator;
 
     @Autowired
-    private ValidateCodeGenerator smsCodeGenerator;
+    private ValidateCodeGenerator smsValidateCodeGenerator;
 
     @Autowired
     private SmsCodeSender smsCodeSender;
@@ -105,8 +106,7 @@ public class ValidateCodeController {
     @GetMapping("code/sms")
     public void createSMSCode(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletRequestBindingException {
         //创建短信验证码
-        // FIXME: 2018/09/02 0002 修复一下
-        ValidateCode smsCode = smsCodeGenerator.generate(new ServletWebRequest(request, response));
+        ValidateCode smsCode = smsValidateCodeGenerator.generate(new ServletWebRequest(request, response));
         //写入session
         sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, smsCode);
         //从请求中拿获取发送手机验证码的手机号码
