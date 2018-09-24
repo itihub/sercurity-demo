@@ -1,12 +1,12 @@
 package com.xxx.security.core.filter;
 
 import com.xxx.security.core.enums.ValidateCodeExceptionEnum;
-import com.xxx.security.core.enums.ValidateCodeType;
 import com.xxx.security.core.exception.ValidateCodeException;
-import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
-import com.xxx.security.core.validate.image.ImageCode;
+import com.xxx.security.core.validate.ValidateCode;
 import com.xxx.security.core.validate.ValidateCodeController;
+import com.xxx.security.core.validate.image.ImageCode;
+import com.xxx.security.core.validate.sms.SmsCode;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +25,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * 继承OncePerRequestFilter 保证每次只会被调用一次
  *
- * @description: 校验图像验证码过滤器
+ * @description: 校验短信登陆过滤器
  * @author: Administrator
  * @date: 2018/08/28 0028
  */
-@Component("validateCodeFilter")
-public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
+@Component("smsCodeFilter")
+public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
 
     /**
@@ -53,10 +51,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     /**
-     * 存放需要使用验证码的url集合
+     * 需要使用验证码的url集合
      */
-    private Map<String, ValidateCodeType> urlMap = new HashMap<>();
-
+    private Set<String> urls = new HashSet<>();
 
     /**
      * 引入应用级配置文件
@@ -67,37 +64,28 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
 
-    /**
-     * 初始化拦截配置
-     * @throws ServletException
-     */
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
 
-        //加入表单登陆请求路径
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
-        //加入验证码校验请求路径
-        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+        // TODO: 2018/08/31 0031 配置文件获取为null，需要处理
+        //拿到配置的url
+        String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(
+                securityProperties.getCode().getImage().getUrl(), ",");
 
-        //加入短信登陆请求路径
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
-        //加入短信校验登陆请求路径
-        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
-    }
+        //登录请求url
+        urls.add("/authentication/mobile");
 
-    /**
-     * 数组参数存入Map中
-     * @param urlString
-     * @param type
-     */
-    protected void addUrlToMap(String urlString, ValidateCodeType type) {
-        if (StringUtils.isNotBlank(urlString)) {
-            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
-            for (String url : urls) {
-                urlMap.put(url, type);
-            }
+        if (configUrls == null) {
+            return;
         }
+
+        //添加到全局url集合中
+        for (String configUrl : configUrls) {
+            urls.add(configUrl);
+        }
+
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request
@@ -141,11 +129,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private void validate(ServletWebRequest request) throws ServletRequestBindingException, ValidateCodeException {
 
         //取出session
-        ImageCode imageCodeSession = (ImageCode) sessionStrategy.getAttribute(request,
+        ValidateCode imageCodeSession = (ValidateCode) sessionStrategy.getAttribute(request,
                 ValidateCodeController.SEEEION_KEY);
 
         //获取用户输入的验证码
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
+        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "smsCode");
 
         //判断是否为空
         if (StringUtils.isBlank(codeInRequest)) {

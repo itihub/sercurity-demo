@@ -2,6 +2,8 @@ package com.xxx.securith.browser;
 
 import com.xxx.securith.browser.authentication.BaseAuthenticationFailureHandle;
 import com.xxx.securith.browser.authentication.BaseAuthenticationSuccessHandle;
+import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.xxx.security.core.filter.SmsCodeFilter;
 import com.xxx.security.core.filter.ValidateCodeFilter;
 import com.xxx.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
     /**
      * 记住我功能
      * @return jdbc
@@ -86,33 +91,40 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(baseAuthenticationFailureHandle);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
+
         //默认httpBasic认证
 //        http.httpBasic()
 
         //form表单请求认证
         //将自定义图形验证码过滤器放入最前面
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
-                    .loginPage("/authentication/request")
-                    .loginProcessingUrl("/authentication/form")
-                    //使用自定义成功处理器
-                    .successHandler(baseAuthenticationSuccessHandle)
-                    //使用自定义失败处理器
-                    .failureHandler(baseAuthenticationFailureHandle)
+                .loginPage("/authentication/request")
+                .loginProcessingUrl("/authentication/form")
+                //使用自定义成功处理器
+                .successHandler(baseAuthenticationSuccessHandle)
+                //使用自定义失败处理器
+                .failureHandler(baseAuthenticationFailureHandle)
                 //记住我配置
                 .and().rememberMe()
-                    .tokenRepository(persistentTokenRepository())
-                    //记住我 过期时间设置
-                    .tokenValiditySeconds(securityProperties.browser.getRememberMeSeconds())
-                    .userDetailsService(userDetailsService)
+                .tokenRepository(persistentTokenRepository())
+                //记住我 过期时间设置
+                .tokenValiditySeconds(securityProperties.browser.getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
                 .and()
-                    .authorizeRequests()    //请求授权
-                    //匹配此页面无需身份验证
-                    .antMatchers("/authentication/request"
-                            , "/code/*"
-                            , securityProperties.browser.getLoginPage()).permitAll()
-                    .anyRequest()   //请求方式
-                    .authenticated()    //任何请求都需要身份认证
-                    .and().csrf().disable();    //关闭跨站请求防护
+                .authorizeRequests()    //请求授权
+                //匹配此页面无需身份验证
+                .antMatchers("/authentication/request"
+                        , "/code/*"
+                        , securityProperties.browser.getLoginPage()).permitAll()
+                .anyRequest()   //请求方式
+                .authenticated()    //任何请求都需要身份认证
+                .and().csrf().disable()    //关闭跨站请求防护
+                .apply(smsCodeAuthenticationSecurityConfig);
     }
 }
