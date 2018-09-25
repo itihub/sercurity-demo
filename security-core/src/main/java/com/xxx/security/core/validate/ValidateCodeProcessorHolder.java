@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @description: 验证码处理支架
+ * @description: 验证码处理器支架
  * @author: Administrator
  * @date: 2018/09/25 0025
  */

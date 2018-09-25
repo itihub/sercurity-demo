@@ -11,10 +11,8 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import java.util.Map;
-
 /**
- * @description: 抽象实现
+ * @description: 验证处理器抽象实现
  * @author: Administrator
  * @date: 2018/09/02 0002
  */
@@ -26,13 +24,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      */
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
-    /**
-     * 依赖搜索
-     * 收集系统中所有的 {@link ValidateCodeGenerator} 接口的实现
-     * map key 为bean的名称
-     */
+
     @Autowired
-    private Map<String, ValidateCodeGenerator> validateCodeGenerators;
+    private ValidateCodeGeneratorHolder validateCodeGeneratorHolder;
 
     /**
      * 生成验证码
@@ -58,10 +52,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @SuppressWarnings("unchecked")
     private C generate(ServletWebRequest request) {
         String type = getValidateCodeType(request).toString().toLowerCase();
-        ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(type + "CodeGenerator");
-        if (validateCodeGenerator == null) {
-            throw new ValidateCodeException(String.format("%sCodeGenerator Not Found", type));
-        }
+        ValidateCodeGenerator validateCodeGenerator = validateCodeGeneratorHolder.findValidateCodeGenerator(type);
         return (C) validateCodeGenerator.generate(request);
     }
 
@@ -79,7 +70,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     /**
      * 构建验证码放入session时的key
-     *
      * @param request
      * @return
      */
@@ -88,8 +78,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     }
 
     /**
-     * 发送校验码，由子类实现
-     *
+     * 抽象方法 发送校验码，由子类实现
      * @param servletWebRequest
      * @param validateCode
      * @throws Exception
@@ -98,7 +87,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     /**
      * 根据请求的url获取校验码的类型
-     *
      * @param request
      * @return
      */

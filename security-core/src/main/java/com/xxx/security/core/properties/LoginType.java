@@ -1,12 +1,18 @@
 package com.xxx.security.core.properties;
 
 /**
- * @Description:
+ * @Description:登录类型枚举
  * @Author: JiZhe
  * @CreateDate: 2018/8/27 20:17
  */
 public enum LoginType {
-
+    /**
+     * 重定向类型
+     */
     REDIRECT,
-    JSON,;
+    /**
+     * 返回json类型
+     */
+    JSON,
+    ;
 }
