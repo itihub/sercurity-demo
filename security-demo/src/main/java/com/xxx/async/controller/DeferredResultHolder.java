@@ -18,11 +18,10 @@ public class DeferredResultHolder {
 
     /**
      * Map<String, DeferredResult<String>>
-     *     String K 订单号
-     *     DeferredResult<String> V 代表处理结果
+     * String K 订单号
+     * DeferredResult<String> V 代表处理结果
      */
     private Map<String, DeferredResult<String>> map = new HashMap<>();
-
 
 
 }

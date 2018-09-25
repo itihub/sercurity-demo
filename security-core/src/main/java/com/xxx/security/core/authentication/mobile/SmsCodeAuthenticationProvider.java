@@ -19,10 +19,11 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //身份认证逻辑
-        //转换成SmsCodeAuthenticationToken
+        //将认证转换成SmsCodeAuthenticationToken
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
         //获取用户登陆信息
         UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
+
         if (user == null){
             throw new InternalAuthenticationServiceException("无法读取用户信息");
         }

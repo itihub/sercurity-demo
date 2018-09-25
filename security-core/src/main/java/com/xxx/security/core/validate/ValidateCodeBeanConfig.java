@@ -25,10 +25,10 @@ public class ValidateCodeBeanConfig {
     private SecurityProperties securityProperties;
 
     /**
-     * @see @ConditionalOnMissingBean(name = "imageCodeGenerator")
-     *      此注解在 Spring 启动时，先去 寻找 imageCodeGenerator 的Bean,如果存在就不执行
-     *      imageCodeGenerator() 方法,存在则执行
      * @return
+     * @see @ConditionalOnMissingBean(name = "imageCodeGenerator")
+     * 此注解在 Spring 启动时，先去 寻找 imageCodeGenerator 的Bean,如果存在就不执行
+     * imageCodeGenerator() 方法,存在则执行
      */
     @Bean
     @ConditionalOnMissingBean(name = "imageCodeGenerator")
@@ -39,10 +39,10 @@ public class ValidateCodeBeanConfig {
     }
 
     /**
-     * @see @ConditionalOnMissingBean(SmsCodeSender.class)
-     *      此注解首先寻找是够有实现 SmsCodeSender.class接口，如果有则不执行使用实现接口，
-     *      如果没有使用默认
      * @return
+     * @see @ConditionalOnMissingBean(SmsCodeSender.class)
+     * 此注解首先寻找是够有实现 SmsCodeSender.class接口，如果有则不执行使用实现接口，
+     * 如果没有使用默认
      */
     @Bean
     @ConditionalOnMissingBean(SmsCodeSender.class)

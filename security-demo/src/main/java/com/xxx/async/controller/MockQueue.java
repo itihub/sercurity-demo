@@ -23,8 +23,8 @@ public class MockQueue {
     }
 
     public void setPlaceOrder(String placeOrder) throws InterruptedException {
-        new Thread(()->{
-            log.info("接收到消息 orderId : {}",placeOrder);
+        new Thread(() -> {
+            log.info("接收到消息 orderId : {}", placeOrder);
             //处理消息
             try {
                 Thread.sleep(1000);

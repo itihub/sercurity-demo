@@ -43,6 +43,7 @@ public class SmsCodeAuthenticationFilter extends
                     "Authentication method not supported: " + request.getMethod());
         }
 
+        //从请求中获取手机号码
         String mobile = obtainMobile(request);
 
         if (mobile == null) {
@@ -61,15 +62,6 @@ public class SmsCodeAuthenticationFilter extends
 
 
     /**
-     * Enables subclasses to override the composition of the username, such as by
-     * including additional values and a separator.
-     *
-     * @param request so that request attributes can be retrieved
-     *
-     * @return the username that will be presented in the <code>Authentication</code>
-     * request token to the <code>AuthenticationManager</code>
-     */
-    /**
      * 从请求中获取手机号
      * @param request
      * @return
@@ -78,14 +70,6 @@ public class SmsCodeAuthenticationFilter extends
         return request.getParameter(mobileParameter);
     }
 
-    /**
-     * Provided so that subclasses may configure what is put into the authentication
-     * request's details property.
-     *
-     * @param request that an authentication request is being created for
-     * @param authRequest the authentication request object that should have its details
-     * set
-     */
     /**
      * 请求详情设置到SmsCodeAuthenticationToken
      * @param request

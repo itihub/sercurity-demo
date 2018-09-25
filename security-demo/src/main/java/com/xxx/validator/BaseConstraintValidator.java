@@ -29,6 +29,7 @@ public class BaseConstraintValidator implements ConstraintValidator<BaseConstrai
 
     /**
      * 初始化
+     *
      * @param constraintAnnotation
      */
     @Override
@@ -38,8 +39,9 @@ public class BaseConstraintValidator implements ConstraintValidator<BaseConstrai
 
     /**
      * 校验规则
-     * @param value 校验值
-     * @param context   校验上下文（包含注解的成员变量）
+     *
+     * @param value   校验值
+     * @param context 校验上下文（包含注解的成员变量）
      * @return
      */
     @Override

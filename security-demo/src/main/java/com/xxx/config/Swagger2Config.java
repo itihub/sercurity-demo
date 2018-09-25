@@ -37,6 +37,7 @@ public class Swagger2Config {
 
     /**
      * API信息
+     *
      * @return
      */
     private ApiInfo apiInfo() {
@@ -48,7 +49,7 @@ public class Swagger2Config {
                 //设置文档的版本信息-> 1.1 Version information
                 .version("1.0")
                 //设置文档的联系方式->1.2 Contact information
-                .contact(new Contact("JiZhe", "xxx","jizhe@live.cn"))
+                .contact(new Contact("JiZhe", "xxx", "jizhe@live.cn"))
                 //设置文档的License信息->1.3 License information
                 .termsOfServiceUrl("www.baidu.com")
                 .build();

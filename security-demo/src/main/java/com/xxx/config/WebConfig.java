@@ -14,15 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description:    web 配置
+ * @Description: web 配置
  * @Author: JiZhe
  * @CreateDate: 2018/8/25 21:13
  */
 @Configuration
-public class WebConfig extends WebMvcConfigurerAdapter{
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * 过滤器注册
+     *
      * @return
      */
     @Bean
@@ -48,6 +49,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 
     /**
      * 注册自定义拦截器
+     *
      * @param registry
      */
     @Override

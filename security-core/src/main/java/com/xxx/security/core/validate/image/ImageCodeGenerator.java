@@ -80,10 +80,11 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     /**
      * 算数运算符
      */
-    private static char[] ops = new char[] {'+', '-', '*'};
+    private static char[] ops = new char[]{'+', '-', '*'};
 
     /**
      * 生成数学公式
+     *
      * @param rdm
      * @return
      */
@@ -96,12 +97,13 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         char op1 = ops[rdm.nextInt(3)];
         char op2 = ops[rdm.nextInt(3)];
         //拼接
-        String exp = ""+ num1 + op1 + num2 + op2 + num3;
+        String exp = "" + num1 + op1 + num2 + op2 + num3;
         return exp;
     }
 
     /**
      * 计算公式
+     *
      * @param exp g公式
      * @return
      */
@@ -110,8 +112,8 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
             //js引擎
             ScriptEngineManager manager = new ScriptEngineManager();
             ScriptEngine engine = manager.getEngineByName("JavaScript");
-            return (Integer)engine.eval(exp);
-        }catch(Exception e) {
+            return (Integer) engine.eval(exp);
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

@@ -1,5 +1,6 @@
 package com.xxx.security.core.validate.sms;
 
+import com.xxx.security.core.exception.ValidateCodeException;
 import com.xxx.security.core.validate.AbstractValidateCodeProcessor;
 import com.xxx.security.core.validate.sms.SmsCode;
 import com.xxx.security.core.validate.sms.SmsCodeSender;
@@ -21,6 +22,7 @@ public class SmsCodeProcessor extends AbstractValidateCodeProcessor<SmsCode> {
 
     /**
      * 短息验证码发送处理器
+     *
      * @param servletWebRequest
      * @param smsCode
      * @throws Exception
@@ -31,4 +33,5 @@ public class SmsCodeProcessor extends AbstractValidateCodeProcessor<SmsCode> {
         String mobile = ServletRequestUtils.getRequiredStringParameter(servletWebRequest.getRequest(), "mobile");
         smsCodeSender.send(mobile, smsCode.getCode());
     }
+
 }

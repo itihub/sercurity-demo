@@ -15,10 +15,9 @@ import java.time.LocalDateTime;
 public class ImageCode extends ValidateCode {
 
     /**
-     *图像验证码
+     * 图像验证码
      */
     private BufferedImage image;
-
 
 
     public ImageCode() {
@@ -33,9 +32,10 @@ public class ImageCode extends ValidateCode {
 
     /**
      * 构造器
-     * @param image 验证图片
-     * @param code  验证答案
-     * @param expireIn  有效时间 单位/s
+     *
+     * @param image    验证图片
+     * @param code     验证答案
+     * @param expireIn 有效时间 单位/s
      */
     public ImageCode(BufferedImage image, String code, int expireIn) {
         super(code, expireIn);

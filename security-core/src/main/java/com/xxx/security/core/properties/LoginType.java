@@ -5,9 +5,8 @@ package com.xxx.security.core.properties;
  * @Author: JiZhe
  * @CreateDate: 2018/8/27 20:17
  */
-public enum  LoginType {
+public enum LoginType {
 
     REDIRECT,
-    JSON,
-    ;
+    JSON,;
 }

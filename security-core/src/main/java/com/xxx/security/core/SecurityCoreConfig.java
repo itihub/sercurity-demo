@@ -5,10 +5,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 
-
 /**
- * @EnableConfigurationProperties(SecurityProperties.class)
- * 让自定义配置读取器生效
+ * @EnableConfigurationProperties(SecurityProperties.class) 让自定义配置读取器生效
  */
 
 /**

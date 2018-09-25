@@ -30,7 +30,7 @@ public class QueueListener implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        new Thread(() ->{
+        new Thread(() -> {
             while (true) {
                 //判断是否有消息处理完成
                 if (StringUtils.isNotBlank(mockQueue.getCompleteOrder())) {

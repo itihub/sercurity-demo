@@ -30,6 +30,7 @@ public class UserController {
 
     /**
      * 创建用户
+     *
      * @param user
      * @return
      */
@@ -44,6 +45,7 @@ public class UserController {
 
     /**
      * 修改用户
+     *
      * @param user
      * @param errors
      * @return
@@ -56,7 +58,7 @@ public class UserController {
 
         //打印参数校验错误信息
         if (errors.hasErrors()) {
-            errors.getAllErrors().stream().forEach(error ->{
+            errors.getAllErrors().stream().forEach(error -> {
                 FieldError fieldError = (FieldError) error;
                 String msg = String.format("{}:{}", fieldError.getField(), error.getDefaultMessage());
                 System.out.println(msg);
@@ -69,17 +71,19 @@ public class UserController {
 
     /**
      * 删除
+     *
      * @param id
      */
     @DeleteMapping("{id:\\d+}")
     @ApiOperation(value = "删除用户信息")
     public void delete(@ApiParam(value = "用户ID") @PathVariable String id) {
-        log.info("delete {}",id);
+        log.info("delete {}", id);
     }
 
 
     /**
      * 查询用户信息
+     *
      * @param condition 查询对象
      * @param pageable  分页 Spring Data
      * @return
@@ -87,11 +91,11 @@ public class UserController {
     @GetMapping
     @JsonView(UserDTO.UserSimpleView.class)
     @ApiOperation(value = "条件查询用户信息")
-    public List<UserDTO> query(UserQueryCondition condition,@PageableDefault(page = 2, size = 10, sort = "userName,asc") Pageable pageable) {
+    public List<UserDTO> query(UserQueryCondition condition, @PageableDefault(page = 2, size = 10, sort = "userName,asc") Pageable pageable) {
 
         log.info("request param {} pageable {}"
                 , ReflectionToStringBuilder.toString(condition, ToStringStyle.MULTI_LINE_STYLE)
-                ,pageable
+                , pageable
         );
 
         List<UserDTO> userDTOList = new ArrayList<>();
@@ -103,19 +107,18 @@ public class UserController {
 
     /**
      * 查询用户详细信息
+     *
      * @param id
      * @return
      */
     @GetMapping("{id:\\d+}")
     @JsonView(UserDTO.UserDetailView.class)
     @ApiOperation(value = "查询指定用户信息详情")
-    public UserDTO queryUserInfo(@PathVariable(name = "id",required = true) String id) {
+    public UserDTO queryUserInfo(@PathVariable(name = "id", required = true) String id) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserName("Andy");
         return userDTO;
     }
-
-
 
 
 }

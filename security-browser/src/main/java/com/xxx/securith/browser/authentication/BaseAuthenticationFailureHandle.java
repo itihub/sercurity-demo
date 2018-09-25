@@ -48,11 +48,10 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             response.setContentType("application/json;charset=UTF-8");
             //将 Authentication 以json形式写回
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-        }else {
+        } else {
             //跳转（默任）
             super.onAuthenticationFailure(request, response, exception);
         }
-
 
 
     }

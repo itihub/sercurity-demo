@@ -2,8 +2,7 @@ package com.xxx;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @description: TODO
@@ -11,6 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date: 2018/08/24 0024
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.xxx"})
 public class DemoApplication {
 
     public static void main(String[] args) {

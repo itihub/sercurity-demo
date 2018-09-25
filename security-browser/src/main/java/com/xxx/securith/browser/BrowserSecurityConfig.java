@@ -3,7 +3,6 @@ package com.xxx.securith.browser;
 import com.xxx.securith.browser.authentication.BaseAuthenticationFailureHandle;
 import com.xxx.securith.browser.authentication.BaseAuthenticationSuccessHandle;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.xxx.security.core.filter.SmsCodeFilter;
 import com.xxx.security.core.filter.ValidateCodeFilter;
 import com.xxx.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,18 +90,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
-        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
-        smsCodeFilter.setAuthenticationFailureHandler(baseAuthenticationFailureHandle);
-        smsCodeFilter.setSecurityProperties(securityProperties);
-        smsCodeFilter.afterPropertiesSet();
-
         //默认httpBasic认证
 //        http.httpBasic()
 
         //form表单请求认证
         //将自定义图形验证码过滤器放入最前面
-        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/authentication/request")
                 .loginProcessingUrl("/authentication/form")

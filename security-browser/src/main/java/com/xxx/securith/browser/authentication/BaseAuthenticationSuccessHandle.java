@@ -41,7 +41,7 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
             response.setContentType("application/json;charset=UTF-8");
             //将 Authentication 以json形式写回
             response.getWriter().write(objectMapper.writeValueAsString(authentication));
-        }else {
+        } else {
             //跳转（默认）
             super.onAuthenticationSuccess(request, response, authentication);
         }

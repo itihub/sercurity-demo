@@ -49,19 +49,19 @@ public class UserControllerTest {
 
     @Test
     public void whenQuerySuccess() throws Exception {
-       String result = mockMvc.perform(MockMvcRequestBuilders.get("/user")
-                .param("userName","珍妮")
-                .param("age","18")
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/user")
+                .param("userName", "珍妮")
+                .param("age", "18")
                 .param("ageTo", "20")
-                .param("size","10")
-                .param("page","3")
-                .param("sort","age,desc")
+                .param("size", "10")
+                .param("page", "3")
+                .param("sort", "age,desc")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3))
                 .andReturn().getResponse().getContentAsString();
 
-       log.info("response {}",result);
+        log.info("response {}", result);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class UserControllerTest {
     @Test
     public void whenCreateSuccess() throws Exception {
 
-        String content = "{\"userName\":\"Tom\",\"userPasswork\":\"123456\",\"birthday\":"+new Date().getTime()+"}";
+        String content = "{\"userName\":\"Tom\",\"userPasswork\":\"123456\",\"birthday\":" + new Date().getTime() + "}";
         String result = mockMvc.perform(MockMvcRequestBuilders.post("/user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))
@@ -101,7 +101,7 @@ public class UserControllerTest {
 
         Date date = new Date(LocalDateTime.now().plusYears(1).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
 
-        String content = "{\"id\":\"1\",\"userName\":\"Tom\",\"userPasswork\":\"123456\",\"birthday\":"+date.getTime()+"}";
+        String content = "{\"id\":\"1\",\"userName\":\"Tom\",\"userPasswork\":\"123456\",\"birthday\":" + date.getTime() + "}";
         String result = mockMvc.perform(MockMvcRequestBuilders.put("/user/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content))

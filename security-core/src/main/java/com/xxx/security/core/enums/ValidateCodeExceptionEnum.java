@@ -7,11 +7,10 @@ package com.xxx.security.core.enums;
  */
 public enum ValidateCodeExceptionEnum {
 
-    VERIFICATION_CODE_NOT_EMPTY(300400,"验证码不能为空"),
-    VERIFICATION_NOT_FOUND(300404,"验证码不存在"),
-    VERIFICATION_INVALID(300502,"验证码已失效"),
-    VERIFICATION_MISMATCH(300500,"验证码不匹配"),
-    ;
+    VERIFICATION_CODE_NOT_EMPTY(300400, "验证码不能为空"),
+    VERIFICATION_NOT_FOUND(300404, "验证码不存在"),
+    VERIFICATION_INVALID(300502, "验证码已失效"),
+    VERIFICATION_MISMATCH(300500, "验证码不匹配"),;
 
 
     private final Integer code;

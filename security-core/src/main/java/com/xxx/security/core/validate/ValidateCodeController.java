@@ -5,7 +5,6 @@ import com.xxx.security.core.validate.image.ImageCode;
 import com.xxx.security.core.validate.sms.SmsCodeSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -38,7 +37,7 @@ public class ValidateCodeController {
     /**
      * session key
      */
-    public static final String SEEEION_KEY = "SEEION_KEY_IMAGE_CODE";
+    public static final String SESSION_KEY = "SESSION_KEY_IMAGE_CODE";
 
     /**
      * 引入应用级配置文件
@@ -66,6 +65,7 @@ public class ValidateCodeController {
 
     /**
      * 创建验证码，根据验证码类型不同，调用不同的 {@link ValidateCodeProcessor}接口实现
+     *
      * @param request
      * @param response
      * @param type
@@ -81,40 +81,41 @@ public class ValidateCodeController {
 
     /**
      * 图像验证生成控制器
+     *
      * @param request
      * @param response
      * @throws IOException
      */
     @Deprecated
-    @GetMapping("code/image")
+//    @GetMapping("code/image")
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //创建图形验证码
-        ImageCode imageCode = (ImageCode) imageCodeGenerator.generate(new ServletWebRequest(request));
-        //写入session
-        sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, imageCode);
-        //写回 response
-        ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
+//        //创建图形验证码
+//        ImageCode imageCode = (ImageCode) imageCodeGenerator.generate(new ServletWebRequest(request));
+//        //写入session
+//        sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, imageCode);
+//        //写回 response
+//        ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
     }
 
     /**
      * 短信验证生成控制器
+     *
      * @param request
      * @param response
      * @throws IOException
      */
     @Deprecated
-    @GetMapping("code/sms")
+//    @GetMapping("code/sms")
     public void createSMSCode(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletRequestBindingException {
-        //创建短信验证码
-        ValidateCode smsCode = smsValidateCodeGenerator.generate(new ServletWebRequest(request, response));
-        //写入session
-        sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, smsCode);
-        //从请求中拿获取发送手机验证码的手机号码
-        String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
-        //发送短信验证码
-        smsCodeSender.send(mobile,smsCode.getCode());
+//        //创建短信验证码
+//        ValidateCode smsCode = smsValidateCodeGenerator.generate(new ServletWebRequest(request, response));
+//        //写入session
+//        sessionStrategy.setAttribute(new ServletWebRequest(request), SEEEION_KEY, smsCode);
+//        //从请求中拿获取发送手机验证码的手机号码
+//        String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
+//        //发送短信验证码
+//        smsCodeSender.send(mobile, smsCode.getCode());
     }
-
 
 
 }

@@ -30,6 +30,7 @@ public class FileController {
 
     /**
      * 文件上传
+     *
      * @param file
      * @return
      */
@@ -38,9 +39,9 @@ public class FileController {
     public FileInfo upload(MultipartFile file) throws IOException {
 
         log.info("request param -  name :{} file name : {} file size : {}"
-                ,file.getName(), file.getOriginalFilename(), file.getSize());
+                , file.getName(), file.getOriginalFilename(), file.getSize());
 
-        File localFile = new File(folder, UUID.randomUUID().toString()+".txt");
+        File localFile = new File(folder, UUID.randomUUID().toString() + ".txt");
 
         file.transferTo(localFile);
 
@@ -52,6 +53,7 @@ public class FileController {
 
     /**
      * 文件下载
+     *
      * @param id
      * @param request
      * @param response
@@ -67,7 +69,7 @@ public class FileController {
         try (
                 InputStream inputStream = new FileInputStream(file);
                 OutputStream outputStream = response.getOutputStream();
-                ){
+        ) {
 
             response.setContentType("application/x-download");
             response.addHeader("Content-Disposition", "attachment;filename=text.txt");

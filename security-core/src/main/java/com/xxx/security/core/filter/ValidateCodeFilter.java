@@ -1,12 +1,10 @@
 package com.xxx.security.core.filter;
 
-import com.xxx.security.core.enums.ValidateCodeExceptionEnum;
 import com.xxx.security.core.enums.ValidateCodeType;
 import com.xxx.security.core.exception.ValidateCodeException;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
-import com.xxx.security.core.validate.image.ImageCode;
-import com.xxx.security.core.validate.ValidateCodeController;
+import com.xxx.security.core.validate.ValidateCodeProcessorHolder;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,6 @@ import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,14 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * 继承OncePerRequestFilter 保证每次只会被调用一次
  *
- * @description: 校验图像验证码过滤器
+ * @description: 通用验证过滤器
  * @author: Administrator
  * @date: 2018/08/28 0028
  */
@@ -47,10 +42,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-    /**
-     * 操作session工具类
-     */
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     /**
      * 存放需要使用验证码的url集合
@@ -66,9 +57,15 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    /**
+     * 验证处理支架   主要根据验证类型查询验证处理器实例
+     */
+    @Autowired
+    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
+
 
     /**
-     * 初始化拦截配置
+     * 初始化加载拦截配置
      * @throws ServletException
      */
     @Override
@@ -98,76 +95,55 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
                 urlMap.put(url, type);
             }
         }
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request
             , HttpServletResponse response
             , FilterChain filterChain) throws ServletException, IOException {
 
-        //是否进行验证标识
-        boolean action = false;
-        for (String url : urls) {
-            String requestURI = request.getRequestURI();
-            //判断是否有需要验证图形验证码的URI
-            if (pathMatcher.match(url, request.getRequestURI())) {
-                action = true;
-            }
-        }
+        //根据请求路径获取验证类型
+        ValidateCodeType validateCodeType = getValidateCodeType(request);
 
-        //判断是否需要校验的请求路径
-        if (action) {
-
+        //判断是否有匹配的验证类型
+        if (validateCodeType != null){
             try {
-                //进行验证码校验
-                validate(new ServletWebRequest(request));
-            }catch (ValidateCodeException e) {
+                //根据验证类型查询验证实例并进行验证
+                validateCodeProcessorHolder.findValidateCodeProcessor(validateCodeType)
+                        .validate(new ServletWebRequest(request, response));
+            } catch (ValidateCodeException e) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
-                //直接结束 不允许再掉下一个过滤器
                 return;
             }
+
         }
 
-        //掉下一个过滤器
+        //调用下一个过滤器
         filterChain.doFilter(request, response);
 
     }
 
+
     /**
-     * 校验验证码
+     * 获取校验码的类型，如果当前请求不需要校验，则返回null
      * @param request
-     * @throws ServletRequestBindingException
-     * @throws ValidateCodeException    自定义校验异常
+     * @return
      */
-    private void validate(ServletWebRequest request) throws ServletRequestBindingException, ValidateCodeException {
-
-        //取出session
-        ImageCode imageCodeSession = (ImageCode) sessionStrategy.getAttribute(request,
-                ValidateCodeController.SEEEION_KEY);
-
-        //获取用户输入的验证码
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
-
-        //判断是否为空
-        if (StringUtils.isBlank(codeInRequest)) {
-            throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_CODE_NOT_EMPTY);
+    private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
+        ValidateCodeType result = null;
+        if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+            //取出map的key
+            Set<String> urls = urlMap.keySet();
+            //遍历key
+            for (String url : urls) {
+                //查询是否有匹配的请求路径
+                if (pathMatcher.match(url, request.getRequestURI())) {
+                    //获取验证类型
+                    result = urlMap.get(url);
+                }
+            }
         }
-
-        //判断验证码是否为null
-        if (imageCodeSession == null) {
-            throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_NOT_FOUND);
-        }
-
-        //判断验证码是否过期
-        if (imageCodeSession.isExpire()) {
-            //移除过期session
-            sessionStrategy.removeAttribute(request, ValidateCodeController.SEEEION_KEY);
-            throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_INVALID);
-        }
-
-        //判断验证码是否匹配
-        if (!StringUtils.equals(imageCodeSession.getCode(), codeInRequest)) {
-            throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_MISMATCH);
-        }
+        return result;
     }
 
     public AuthenticationFailureHandler getAuthenticationFailureHandler() {
@@ -184,5 +160,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
+    }
+
+    public ValidateCodeProcessorHolder getValidateCodeProcessorHolder() {
+        return validateCodeProcessorHolder;
+    }
+
+    public void setValidateCodeProcessorHolder(ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+        this.validateCodeProcessorHolder = validateCodeProcessorHolder;
     }
 }

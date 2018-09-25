@@ -16,10 +16,9 @@ public class MockServer {
 
     public static void main(String[] args) throws IOException {
         //配置主机及端口
-        WireMock.configureFor("127.0.0.1",8090);
+        WireMock.configureFor("127.0.0.1", 8090);
         //清空历史配置
         WireMock.removeAllMappings();
-
 
 
         //处理请求
@@ -28,16 +27,17 @@ public class MockServer {
 
     /**
      * 处理请求抽取方法
-     * @param url 请求url
-     * @param file   返回结果
+     *
+     * @param url  请求url
+     * @param file 返回结果
      */
     private static void mock(String url, String file) throws IOException {
         //获取本地文件
-        ClassPathResource resource = new ClassPathResource(String.format("response/%s",file));
+        ClassPathResource resource = new ClassPathResource(String.format("response/%s", file));
 
-        String content = StringUtils.join(FileUtils.readLines(resource.getFile(),"UTF-8").toArray()
-                ,"\n");
+        String content = StringUtils.join(FileUtils.readLines(resource.getFile(), "UTF-8").toArray()
+                , "\n");
         WireMock.stubFor(WireMock.get(WireMock.urlPathEqualTo(url))
-                        .willReturn(WireMock.aResponse().withBody(content).withStatus(200)));
+                .willReturn(WireMock.aResponse().withBody(content).withStatus(200)));
     }
 }

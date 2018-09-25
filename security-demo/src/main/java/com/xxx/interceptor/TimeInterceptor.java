@@ -20,6 +20,7 @@ public class TimeInterceptor implements HandlerInterceptor {
 
     /**
      * 前置拦截
+     *
      * @param request
      * @param response
      * @param handler
@@ -29,7 +30,7 @@ public class TimeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        request.setAttribute("startTime",System.currentTimeMillis());
+        request.setAttribute("startTime", System.currentTimeMillis());
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         String className = handlerMethod.getBean().getClass().getName();
@@ -43,6 +44,7 @@ public class TimeInterceptor implements HandlerInterceptor {
 
     /**
      * 后置拦截
+     *
      * @param request
      * @param response
      * @param handler
@@ -56,6 +58,7 @@ public class TimeInterceptor implements HandlerInterceptor {
 
     /**
      * 异常后置拦截（无论如何都会调用）
+     *
      * @param request
      * @param response
      * @param handler
@@ -70,7 +73,7 @@ public class TimeInterceptor implements HandlerInterceptor {
 
         long startTime = (long) request.getAttribute("startTime");
 
-        log.info("this is request time consuming {}",endTime - startTime);
-        log.info("exception is {}",ex);
+        log.info("this is request time consuming {}", endTime - startTime);
+        log.info("exception is {}", ex);
     }
 }

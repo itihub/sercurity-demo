@@ -21,9 +21,15 @@ import java.util.Date;
 @Data
 public class UserDTO {
 
-    public interface UserSimpleView {};
+    public interface UserSimpleView {
+    }
 
-    public interface UserDetailView extends UserSimpleView {};
+    ;
+
+    public interface UserDetailView extends UserSimpleView {
+    }
+
+    ;
 
     @JsonView(UserSimpleView.class)
     private Integer id;

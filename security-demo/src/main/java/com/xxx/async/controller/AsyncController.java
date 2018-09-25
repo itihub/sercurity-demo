@@ -22,6 +22,7 @@ public class AsyncController {
 
     /**
      * 同步处理case
+     *
      * @return
      * @throws InterruptedException
      */

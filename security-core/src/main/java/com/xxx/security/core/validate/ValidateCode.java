@@ -34,8 +34,9 @@ public class ValidateCode {
 
     /**
      * 构造器
-     * @param code  验证答案
-     * @param expireIn  有效时间 单位/s
+     *
+     * @param code     验证答案
+     * @param expireIn 有效时间 单位/s
      */
     public ValidateCode(String code, int expireIn) {
         this.code = code;
@@ -44,9 +45,10 @@ public class ValidateCode {
 
     /**
      * 判断是否过期
+     *
      * @return
      */
-    public boolean isExpire() {
+    public boolean isExpired() {
         return LocalDateTime.now().isAfter(expireTime);
     }
 }

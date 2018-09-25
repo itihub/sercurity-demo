@@ -18,6 +18,7 @@ public class TimeFilter implements Filter {
 
     /**
      * 初始化
+     *
      * @param filterConfig
      * @throws ServletException
      */
@@ -28,6 +29,7 @@ public class TimeFilter implements Filter {
 
     /**
      * 过滤处理
+     *
      * @param request
      * @param response
      * @param chain
@@ -37,9 +39,9 @@ public class TimeFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        log.info("filter start time {}",new Date());
+        log.info("filter start time {}", new Date());
         chain.doFilter(request, response);
-        log.info("filter end time {}",new Date());
+        log.info("filter end time {}", new Date());
     }
 
     /**
