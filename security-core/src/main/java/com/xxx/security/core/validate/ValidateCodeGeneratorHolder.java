@@ -39,7 +39,6 @@ public class ValidateCodeGeneratorHolder {
      * @return
      */
     public ValidateCodeGenerator findValidateCodeGenerator(String type) {
-        // FIXME: 2018/09/25 0025 beanName 截取bug  待修复
         String suffix = StringUtils.substringAfter(ValidateCodeGenerator.class.getSimpleName(), "Validate");
         //拼接生成器beanName
         String name = type.toLowerCase() + suffix;
