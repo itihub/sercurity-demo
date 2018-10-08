@@ -8,7 +8,7 @@ import org.springframework.social.oauth2.TokenStrategy;
 import java.io.IOException;
 
 /**
- * @description: TODO
+ * @description: 第三方登录接入api实现
  * @author: Administrator
  * @date: 2018/09/29 0029
  */
@@ -53,13 +53,20 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
     }
 
     @Override
-    public QQUserInfo getUserInfo() throws IOException {
+    public QQUserInfo getUserInfo(){
 
         String url = String.format(URL_GET_USER_INFO, appId, openId);
         String result = getRestTemplate().getForObject(url, String.class);
 
 
-        return objectMapper.readValues(result, QQUserInfo.class);
+        QQUserInfo userInfo = null;
+        try {
+            userInfo = objectMapper.readValue(result, QQUserInfo.class);
+            userInfo.setOpenId(openId);
+            return objectMapper.readValue(result, QQUserInfo.class);
+        } catch (IOException e) {
+            throw new RuntimeException("获取用户信息失败", e);
+        }
 
     }
 }

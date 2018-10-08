@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -67,6 +68,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
+
     /**
      * 记住我功能
      * @return jdbc
@@ -118,6 +122,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()   //请求方式
                 .authenticated()    //任何请求都需要身份认证
                 .and().csrf().disable()    //关闭跨站请求防护
-                .apply(smsCodeAuthenticationSecurityConfig);
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(springSocialConfigurer);
     }
 }
