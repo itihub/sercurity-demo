@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 
 
 /**
- * @Description:    自定义安全配置适配器
+ * @Description:    浏览器自定义安全配置适配器
  * @Author: JiZhe
  * @CreateDate: 2018/8/26 15:50
  */

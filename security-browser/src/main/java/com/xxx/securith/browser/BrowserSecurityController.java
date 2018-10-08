@@ -1,6 +1,7 @@
 package com.xxx.securith.browser;
 
 import com.xxx.securith.browser.support.SimpleResponse;
+import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class BrowserSecurityController {
      */
     private RequestCache requestCache = new HttpSessionRequestCache();
 
+    /**
+     * 重定向策略
+     */
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     /**
@@ -42,7 +46,7 @@ public class BrowserSecurityController {
     private SecurityProperties securityProperties;
 
     /**
-     * 身份认证 跳转
+     * 当需要身份认证时，跳转到这里
      *
      * @param request
      * @param response
@@ -68,7 +72,7 @@ public class BrowserSecurityController {
             }
         }
 
-        return new SimpleResponse("权限不足，请进行身份验证");
+        return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
 
 }

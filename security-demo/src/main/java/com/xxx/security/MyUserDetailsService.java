@@ -14,7 +14,7 @@ import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description:
+ * @Description:登录业务逻辑处理
  * @Author: JiZhe
  * @CreateDate: 2018/8/26 16:19
  */
