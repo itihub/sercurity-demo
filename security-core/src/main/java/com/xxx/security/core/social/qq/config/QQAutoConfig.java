@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
 
 /**
- * @description: TODO
+ * @description: QQ连接工厂配置
  * @author: Administrator
  * @date: 2018/10/08 0008
  */
 @Configuration
-@ConditionalOnProperty(prefix = "xxx.security.social.qq", name = "app-id")
+@ConditionalOnProperty(prefix = "xxx.security.social.qq", name = "app-id")      //限定注解  配置文件篇配置此配置类才起作用
 public class QQAutoConfig extends SocialAutoConfigurerAdapter {
 
     @Autowired

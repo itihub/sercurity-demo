@@ -5,6 +5,7 @@ import com.xxx.securith.browser.authentication.BaseAuthenticationSuccessHandle;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xxx.security.core.filter.ValidateCodeFilter;
 import com.xxx.security.core.properties.SecurityProperties;
+import com.xxx.security.core.validate.ValidateCodeProcessorHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -68,8 +69,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+    /**
+     * 引入SpringSocialConfigurer
+     * @see com.xxx.security.core.social.SocialConfig
+     */
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
+
+    /**
+     * 验证处理支架   主要根据验证类型查询验证处理器实例
+     */
+    @Autowired
+    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     /**
      * 记住我功能
@@ -88,10 +99,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+
         //实例化 自定义图形验证码过滤器
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(baseAuthenticationFailureHandle);
         validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.setValidateCodeProcessorHolder(validateCodeProcessorHolder);
         validateCodeFilter.afterPropertiesSet();
 
         //默认httpBasic认证

@@ -28,6 +28,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @Autowired
     private ValidateCodeGeneratorHolder validateCodeGeneratorHolder;
 
+
     /**
      * 生成验证码
      * @param servletWebRequest

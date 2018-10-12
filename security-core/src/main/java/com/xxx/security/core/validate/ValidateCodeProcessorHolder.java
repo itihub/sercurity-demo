@@ -2,6 +2,7 @@ package com.xxx.security.core.validate;
 
 import com.xxx.security.core.enums.ValidateCodeType;
 import com.xxx.security.core.exception.ValidateCodeException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,8 @@ public class ValidateCodeProcessorHolder {
      */
     public ValidateCodeProcessor findValidateCodeProcessor(String type) {
         //拼接验证器实例beanName
-        String name = type.toLowerCase() + ValidateCodeProcessor.class.getSimpleName();
+        String suffix = StringUtils.substringAfter(ValidateCodeProcessor.class.getSimpleName(), "Validate");
+        String name = type.toLowerCase() + suffix;
 
         //获取验证处理器的实例
         ValidateCodeProcessor processor = validateCodeProcessors.get(name);

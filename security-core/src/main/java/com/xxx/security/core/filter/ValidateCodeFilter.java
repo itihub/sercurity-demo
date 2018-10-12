@@ -55,6 +55,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 验证请求url与配置的url是否匹配的工具类
+     */
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
     /**

@@ -26,6 +26,12 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * 表单登陆验证逻辑
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("request to login username : {}", username);
@@ -39,7 +45,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         log.info("request to QQ login username : {}", userId);
-        // TODO: 2018/8/26 进行DB访问查询用户
+        // TODO: 2018/8/26 使用userId（及第三方openid）进行DB UserConnection表访问查询用户信息
         String password = passwordEncoder.encode("123456");
         return new SocialUser(userId, password
                 , true, true, true, true

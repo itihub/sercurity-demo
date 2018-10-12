@@ -24,7 +24,7 @@ public class SecurityProperties {
     public ValidateCodeProperties code = new ValidateCodeProperties();
 
     /**
-     * 第三方配置属性
+     * 第三方Social配置属性
      */
     public SocialProperties social = new SocialProperties();
 

@@ -7,6 +7,9 @@ package com.xxx.security.core.properties;
  */
 public class SocialProperties {
 
+    /**
+     * qq配置
+     */
     private QQProperties qq = new QQProperties();
 
     public QQProperties getQq() {
