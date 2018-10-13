@@ -9,6 +9,7 @@ import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,18 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public SpringSocialConfigurer springSocialConfigurer() {
         String filterProcessesUrl = securityProperties.social.getQq().getFilterProcessesUrl();
         XxxSpringSocialConfigurer configurer = new XxxSpringSocialConfigurer(filterProcessesUrl);
+        //自定义注册地址
+        configurer.signupUrl(securityProperties.browser.getSignUpUrl());
         return configurer;
+    }
+
+
+    /**
+     * Spring social 工具类
+     * @return
+     */
+    @Bean
+    public ProviderSignInUtils providerSignInUtils() {
+        return new ProviderSignInUtils();
     }
 }

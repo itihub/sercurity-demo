@@ -131,7 +131,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 //匹配此页面无需身份验证
                 .antMatchers("/authentication/request"
                         , "/code/*"
-                        , securityProperties.browser.getLoginPage()).permitAll()
+                        , securityProperties.browser.getLoginPage()
+                        , securityProperties.browser.getSignUpUrl()).permitAll()
                 .anyRequest()   //请求方式
                 .authenticated()    //任何请求都需要身份认证
                 .and().csrf().disable()    //关闭跨站请求防护

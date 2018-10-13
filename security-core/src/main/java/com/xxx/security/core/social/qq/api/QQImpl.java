@@ -49,7 +49,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
         //调用父类通信模板发起请求
         String result = getRestTemplate().getForObject(url, String.class);
 
-        this.openId = StringUtils.substringBetween(result, "\"openid\":", "}");
+        this.openId = StringUtils.substringBetween(result, "\"openid\":\"", "\"}");
     }
 
     @Override
