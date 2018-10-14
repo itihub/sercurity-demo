@@ -15,10 +15,6 @@ public class QQProperties extends SocialProperties {
      */
     private String providerId = "qq";
 
-    /**
-     * Spring social 过滤统一资源定位器 默认 auth
-     */
-    private String filterProcessesUrl = "auth";
 
     public String getProviderId() {
         return providerId;
@@ -28,11 +24,4 @@ public class QQProperties extends SocialProperties {
         this.providerId = providerId;
     }
 
-    public String getFilterProcessesUrl() {
-        return filterProcessesUrl;
-    }
-
-    public void setFilterProcessesUrl(String filterProcessesUrl) {
-        this.filterProcessesUrl = filterProcessesUrl;
-    }
 }

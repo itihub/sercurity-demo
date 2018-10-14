@@ -7,6 +7,7 @@ import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -33,6 +34,12 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * ConnectionSignUp 第三方登陆新用户自动注册实现接口
+     */
+    @Autowired(required = false)
+    private ConnectionSignUp connectionSignUp;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         /**
@@ -48,7 +55,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
          * @param connectionFactoryLocator 连接工厂
          * @param textEncryptor 数据加解密方式
          */
-        return new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+        JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+        //判断 是否有实现 ConnectionSignUp 接口
+        if (connectionSignUp != null){
+            //有实现 加入
+            repository.setConnectionSignUp(connectionSignUp);
+        }
+        return repository;
     }
 
     /**
@@ -57,7 +70,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
      */
     @Bean
     public SpringSocialConfigurer springSocialConfigurer() {
-        String filterProcessesUrl = securityProperties.social.getQq().getFilterProcessesUrl();
+        String filterProcessesUrl = securityProperties.social.getFilterProcessesUrl();
         XxxSpringSocialConfigurer configurer = new XxxSpringSocialConfigurer(filterProcessesUrl);
         //自定义注册地址
         configurer.signupUrl(securityProperties.browser.getSignUpUrl());
@@ -70,7 +83,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
      * @return
      */
     @Bean
-    public ProviderSignInUtils providerSignInUtils() {
-        return new ProviderSignInUtils();
+    public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
+        return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
     }
 }
