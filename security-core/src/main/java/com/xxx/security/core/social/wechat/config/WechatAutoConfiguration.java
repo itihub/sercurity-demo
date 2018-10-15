@@ -32,9 +32,14 @@ public class WechatAutoConfiguration extends SocialAutoConfigurerAdapter {
                 wechatConfig.getAppSecret());
     }
 
+    /**
+     * connect/wechatConnected 绑定视图
+     * connect/wechatConnect 解绑视图
+     * @return
+     */
     @Bean({"connect/wechatConnect", "connect/wechatConnected"})
-    @ConditionalOnMissingBean(name = "wechatConnectedView")
-    public View WechatConnectedView() {
+    @ConditionalOnMissingBean(name = "wechatConnectedView")     //支持覆盖开发  注入一个beanname wechatConnectedView 即可覆盖
+    public View wechatConnectedView() {
         return new XxxConnectView();
     }
 }

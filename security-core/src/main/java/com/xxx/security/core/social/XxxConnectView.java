@@ -15,7 +15,10 @@ public class XxxConnectView extends AbstractView {
 
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         response.setContentType("text/html;charset=UTF-8");
+
+        //绑定与解绑返回数据区别  绑定返回数据包含connection
         if (model.get("connection") == null) {
             response.getWriter().write("<h3>解绑成功</h3>");
         } else {

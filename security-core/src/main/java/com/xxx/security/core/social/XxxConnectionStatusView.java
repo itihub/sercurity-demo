@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description: 自定义连接状态视图
+ * @Description: 自定义连接状态视图(用于Spring Social默认实现查找用户绑定信息)
+ * GET request connect返回视图
  * @Author: JiZhe
  * @CreateDate: 2018/10/14 11:05
  */
@@ -25,8 +26,8 @@ public class XxxConnectionStatusView extends AbstractView {
     private ObjectMapper objectMapper;
 
     /**
-     * @see  org.springframework.social.connect.web.ConnectController
-     * @param model
+     * @see  org.springframework.social.connect.web.ConnectController 这是spring social 默认实现的控制器
+     * @param model 响应数据
      * @param request
      * @param response
      * @throws Exception
@@ -38,10 +39,13 @@ public class XxxConnectionStatusView extends AbstractView {
 
         Map<String, List<Connection<?>>> connections = (Map<String, List<Connection<?>>>) model.get("connectionMap");
 
+        //自定义返回参数
         Map<String, Boolean> result = new HashMap<>(16);
+
         for (String key : connections.keySet()) {
             result.put(key, CollectionUtils.isNotEmpty(connections.get(key)));
         }
+
         //设置响应编码
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(result));
