@@ -50,17 +50,19 @@ public class BrowserSecurityController {
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     *
+     */
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
     /**
      * 当需要身份认证时，跳转到这里
-     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping("/authentication/request")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request
             , HttpServletResponse response) throws IOException {
@@ -71,7 +73,7 @@ public class BrowserSecurityController {
         if (savedRequest != null) {
             //获取请求的URL
             String redirectUrl = savedRequest.getRedirectUrl();
-
+            log.info("引发跳转的请求是：{}", redirectUrl);
             //判断此前请求的url是否是html请求
             if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
                 //跳转请求
@@ -84,17 +86,20 @@ public class BrowserSecurityController {
     }
 
     /**
-     *
-     * @return
+     * 获取社交用户信息
+     * @return 社交用户信息
      */
     @GetMapping("/social/user")
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request){
         SocialUserInfo userInfo = new SocialUserInfo();
+        //使用工具类获取session中用户登录信息
         Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        //转换对象
         userInfo.setProviderId(connection.getKey().getProviderId());
         userInfo.setProviderUserId(connection.getKey().getProviderUserId());
         userInfo.setNickname(connection.getDisplayName());
         userInfo.setHeadimg(connection.getImageUrl());
+
         return userInfo;
     }
 

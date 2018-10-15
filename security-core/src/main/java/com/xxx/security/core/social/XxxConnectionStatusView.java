@@ -1,11 +1,10 @@
 package com.xxx.security.core.social;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.views.DocumentView;
 import org.springframework.web.servlet.view.AbstractView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description: 自定义返回视图
+ * @Description: 自定义连接状态视图
  * @Author: JiZhe
  * @CreateDate: 2018/10/14 11:05
  */
@@ -39,7 +38,7 @@ public class XxxConnectionStatusView extends AbstractView {
 
         Map<String, List<Connection<?>>> connections = (Map<String, List<Connection<?>>>) model.get("connectionMap");
 
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Boolean> result = new HashMap<>(16);
         for (String key : connections.keySet()) {
             result.put(key, CollectionUtils.isNotEmpty(connections.get(key)));
         }

@@ -1,8 +1,7 @@
-package com.xxx.security.core.social.qq.connet;
+package com.xxx.security;
 
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
-import org.springframework.stereotype.Component;
 
 /**
  * @Description: 第三方登陆 用户自动注册实现案例

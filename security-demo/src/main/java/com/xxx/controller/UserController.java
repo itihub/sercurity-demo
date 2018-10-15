@@ -49,7 +49,7 @@ public class UserController {
         //不管是注册用户还是绑定用户，都会拿到用户唯一标识
         String userId = user.getUsername();
         // TODO: 2018/10/13 注册或绑定业务逻辑
-        //将用户唯一标识传给spring social
+        //通过工具类将用户唯一标识传给spring social
         providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
     }
 

@@ -1,5 +1,7 @@
 package com.xxx.security.core.properties;
 
+import org.springframework.boot.autoconfigure.social.SocialProperties;
+
 /**
  * @Description: 第三方接入-微信 配置属性类
  * @Author: JiZhe

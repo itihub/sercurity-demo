@@ -30,8 +30,11 @@ public class WechatAdapter implements ApiAdapter<Wechat> {
     @Override
     public void setConnectionValues(Wechat api, ConnectionValues values) {
         WechatUserInfo userInfo = api.getUserInfo(openId);
+        //第三方平台用户唯一标识
         values.setProviderUserId(userInfo.getOpenid());
+        //用户显示昵称
         values.setDisplayName(userInfo.getNickname());
+        //用户头像url
         values.setImageUrl(userInfo.getHeadimgurl());
 
     }

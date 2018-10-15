@@ -27,6 +27,7 @@ public class WechatConnectionFactory extends OAuth2ConnectionFactory<Wechat> {
     /**
      * 由于微信的openId是和accessToken一起返回的，
      * 所以在这里直接根据accessToken设置providerUserId即可，不用像QQ那样通过QQAdapter来获取
+     * @return openid
      */
     @Override
     protected String extractProviderUserId(AccessGrant accessGrant) {
@@ -38,13 +39,16 @@ public class WechatConnectionFactory extends OAuth2ConnectionFactory<Wechat> {
 
     @Override
     public Connection<Wechat> createConnection(AccessGrant accessGrant) {
-        return new OAuth2Connection<Wechat>(getProviderId(), extractProviderUserId(accessGrant), accessGrant.getAccessToken(),
-                accessGrant.getRefreshToken(), accessGrant.getExpireTime(), getOAuth2ServiceProvider(), getApiAdapter(extractProviderUserId(accessGrant)));
+        return new OAuth2Connection<Wechat>(getProviderId(), extractProviderUserId(accessGrant)
+                , accessGrant.getAccessToken(), accessGrant.getRefreshToken()
+                , accessGrant.getExpireTime(), getOAuth2ServiceProvider()
+                , getApiAdapter(extractProviderUserId(accessGrant)));
     }
 
     @Override
     public Connection<Wechat> createConnection(ConnectionData data) {
-        return new OAuth2Connection<Wechat>(data, getOAuth2ServiceProvider(), getApiAdapter(data.getProviderUserId()));
+        return new OAuth2Connection<Wechat>(data, getOAuth2ServiceProvider()
+                , getApiAdapter(data.getProviderUserId()));
     }
 
     private ApiAdapter<Wechat> getApiAdapter(String providerUserId) {

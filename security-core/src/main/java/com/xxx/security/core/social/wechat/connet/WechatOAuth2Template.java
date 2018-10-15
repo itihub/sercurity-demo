@@ -16,7 +16,9 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
- * @Description:完成微信的OAuth2认证流程的模板类。国内厂商实现的OAuth2每个都不同, spring默认提供的OAuth2Template适应不了，只能针对每个厂商自己微调。
+ * @Description:完成微信的OAuth2认证流程的模板类。
+ * 国内厂商实现的OAuth2每个都不同, spring默认提供的OAuth2Template适应不了，
+ * 只能针对每个厂商自己微调。
  * @Author: JiZhe
  * @CreateDate: 2018/10/14 10:45
  */
@@ -67,14 +69,19 @@ public class WechatOAuth2Template extends OAuth2Template {
         return getAccessToken(refreshTokenUrl);
     }
 
+    /**
+     * 获取访问令牌
+     * @param accessTokenRequestUrl  访问令牌请求的URL
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private AccessGrant getAccessToken(StringBuilder accessTokenRequestUrl) {
 
-        logger.info("获取access_token, 请求URL: "+accessTokenRequestUrl.toString());
+        logger.info("获取access_token, 请求URL: {}", accessTokenRequestUrl.toString());
 
         String response = getRestTemplate().getForObject(accessTokenRequestUrl.toString(), String.class);
 
-        logger.info("获取access_token, 响应内容: "+response);
+        logger.info("获取access_token, 响应内容: {}", response);
 
         Map<String, Object> result = null;
         try {

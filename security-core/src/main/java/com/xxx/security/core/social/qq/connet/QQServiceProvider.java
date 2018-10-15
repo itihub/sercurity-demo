@@ -1,10 +1,8 @@
 package com.xxx.security.core.social.qq.connet;
 
-import com.xxx.security.core.social.QQOAuth2Template;
 import com.xxx.security.core.social.qq.api.QQ;
 import com.xxx.security.core.social.qq.api.QQImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 
 /**
  * @description: QQ服务提供商

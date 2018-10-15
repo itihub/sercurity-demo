@@ -21,6 +21,7 @@ import org.springframework.web.servlet.View;
 @Configuration
 @ConditionalOnProperty(prefix = "xxx.security.social.wechat", name = "app-id")
 public class WechatAutoConfiguration extends SocialAutoConfigurerAdapter {
+
     @Autowired
     private SecurityProperties securityProperties;
 

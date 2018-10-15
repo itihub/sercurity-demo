@@ -3,7 +3,7 @@ package com.xxx.securith.browser.support;
 import lombok.Data;
 
 /**
- * @Description:
+ * @Description:社交用户信息对象模型
  * @Author: JiZhe
  * @CreateDate: 2018/10/13 15:23
  */

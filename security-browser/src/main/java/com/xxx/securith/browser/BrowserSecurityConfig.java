@@ -1,34 +1,99 @@
 package com.xxx.securith.browser;
 
-import com.xxx.securith.browser.authentication.BaseAuthenticationFailureHandle;
-import com.xxx.securith.browser.authentication.BaseAuthenticationSuccessHandle;
+import com.xxx.security.core.authentication.AbstractChannelSecurityConfig;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.xxx.security.core.filter.ValidateCodeFilter;
+import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
-import com.xxx.security.core.validate.ValidateCodeProcessorHolder;
+import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-
 /**
- * @Description:    浏览器自定义安全配置适配器
- * @Author: JiZhe
- * @CreateDate: 2018/8/26 15:50
+ * @description: 浏览器自定义安全配置
+ * @author: Administrator
+ * @date: 2018/10/15 0015
  */
-@Component
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
+
+    //读取配置文件
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    //引入数据源
+    @Autowired
+    private DataSource dataSource;
+
+    //处理验证码过滤器配置
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    //短信验证安全配置
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    /**
+     * 社交配置 即第三方登录介入配置
+     * 引入SpringSocialConfigurer
+     * @see com.xxx.security.core.social.SocialConfig
+     */
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        //配置认证口令
+        applyPasswordAuthenticationConfig(http);
+
+        http
+                //添加验证码安全配置
+                .apply(validateCodeSecurityConfig)
+                .and()
+                //添加短信安全配置
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                //添加 spring social配置
+                .apply(springSocialConfigurer)
+                .and()
+                //配置记住我功能
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                //记住我 过期时间配置
+                .tokenValiditySeconds(securityProperties.browser.getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
+                .and()
+                //授权请求配置
+                .authorizeRequests()
+                //配置无需身份验证url
+                .antMatchers(
+                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
+                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+                        , "/code/*"
+                        , securityProperties.browser.getLoginPage()
+                        , securityProperties.browser.getSignUpUrl()
+                        ,"/user/register").permitAll()
+                //任何请求都需要身份认证
+                .anyRequest().authenticated()
+                .and()
+                //关闭跨站请求防护
+                .csrf().disable();
+
+    }
+
 
     /**
      * 密码加密解密工具
@@ -38,49 +103,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /**
-     * 读取配置文件
-     */
-    @Autowired
-    private SecurityProperties securityProperties;
-
-    /**
-     * 引入自定义成功处理器
-     */
-    @Autowired
-    private BaseAuthenticationSuccessHandle baseAuthenticationSuccessHandle;
-
-    /**
-     * 引入自定义错误处理器
-     */
-    @Autowired
-    private BaseAuthenticationFailureHandle baseAuthenticationFailureHandle;
-
-    /**
-     * 引入数据源
-     */
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
-    /**
-     * 引入SpringSocialConfigurer
-     * @see com.xxx.security.core.social.SocialConfig
-     */
-    @Autowired
-    private SpringSocialConfigurer springSocialConfigurer;
-
-    /**
-     * 验证处理支架   主要根据验证类型查询验证处理器实例
-     */
-    @Autowired
-    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     /**
      * 记住我功能
@@ -95,49 +117,4 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         return tokenRepository;
     }
 
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-
-        //实例化 自定义图形验证码过滤器
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHandler(baseAuthenticationFailureHandle);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.setValidateCodeProcessorHolder(validateCodeProcessorHolder);
-        validateCodeFilter.afterPropertiesSet();
-
-        //默认httpBasic认证
-//        http.httpBasic()
-
-        //form表单请求认证
-        //将自定义图形验证码过滤器放入最前面
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .loginPage("/authentication/request")
-                .loginProcessingUrl("/authentication/form")
-                //使用自定义成功处理器
-                .successHandler(baseAuthenticationSuccessHandle)
-                //使用自定义失败处理器
-                .failureHandler(baseAuthenticationFailureHandle)
-                //记住我配置
-                .and().rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                //记住我 过期时间设置
-                .tokenValiditySeconds(securityProperties.browser.getRememberMeSeconds())
-                .userDetailsService(userDetailsService)
-                .and()
-                .authorizeRequests()    //请求授权
-                //匹配此页面无需身份验证
-                .antMatchers("/authentication/request"
-                        , "/code/*"
-                        , securityProperties.browser.getLoginPage()
-                        , securityProperties.browser.getSignUpUrl()).permitAll()
-                .anyRequest()   //请求方式
-                .authenticated()    //任何请求都需要身份认证
-                .and().csrf().disable()    //关闭跨站请求防护
-                .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
-                .apply(springSocialConfigurer);
-    }
 }

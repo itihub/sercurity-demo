@@ -23,7 +23,7 @@ public class WechatServiceProvider extends AbstractOAuth2ServiceProvider<Wechat>
     private static final String URL_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/access_token";
 
     public WechatServiceProvider(String appId, String appSecret) {
-        super(new WechatOAuth2Template(appId, appSecret,URL_AUTHORIZE,URL_ACCESS_TOKEN));
+        super(new WechatOAuth2Template(appId, appSecret, URL_AUTHORIZE,URL_ACCESS_TOKEN));
     }
 
     @Override
