@@ -44,6 +44,6 @@ public interface SecurityConstants {
     /**
      * session失效默认的跳转地址
      */
-    static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+    static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid.html";
 
 }

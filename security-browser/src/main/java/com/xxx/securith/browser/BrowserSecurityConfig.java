@@ -1,5 +1,6 @@
 package com.xxx.securith.browser;
 
+import com.xxx.securith.browser.session.CustomizeExpiredSessionStrategy;
 import com.xxx.security.core.authentication.AbstractChannelSecurityConfig;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xxx.security.core.properties.SecurityConstants;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -53,6 +56,18 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * session失效策略
+     */
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
+    /**
+     *session过期策略（比如：同一账号 另一处登陆）
+     */
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -62,20 +77,32 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         http
                 //添加验证码安全配置
                 .apply(validateCodeSecurityConfig)
-                .and()
+                    .and()
                 //添加短信安全配置
                 .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
+                    .and()
                 //添加 spring social配置
                 .apply(springSocialConfigurer)
-                .and()
+                    .and()
                 //配置记住我功能
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 //记住我 过期时间配置
                 .tokenValiditySeconds(securityProperties.browser.getRememberMeSeconds())
                 .userDetailsService(userDetailsService)
-                .and()
+                    .and()
+                //session管理
+                .sessionManagement()
+                //session失效跳转url
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                    //同一个用户只能有一个session会话
+                    .maximumSessions(securityProperties.browser.getSession().getMaximumSessions())
+                    //当session超过最大限制数量阻止登陆操作 （关闭，会自动剔除前登陆session）
+                    .maxSessionsPreventsLogin((securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin()))
+                    //session过期的会话策略
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                    .and()
+                    .and()
                 //授权请求配置
                 .authorizeRequests()
                 //配置无需身份验证url
@@ -85,10 +112,11 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         , "/code/*"
                         , securityProperties.browser.getLoginPage()
                         , securityProperties.browser.getSignUpUrl()
+                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
                         ,"/user/register").permitAll()
                 //任何请求都需要身份认证
                 .anyRequest().authenticated()
-                .and()
+                    .and()
                 //关闭跨站请求防护
                 .csrf().disable();
 
