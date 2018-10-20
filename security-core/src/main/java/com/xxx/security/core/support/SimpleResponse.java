@@ -1,4 +1,4 @@
-package com.xxx.securith.browser.support;
+package com.xxx.security.core.support;
 
 import lombok.Data;
 

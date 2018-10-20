@@ -124,15 +124,6 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
 
     /**
-     * 密码加密解密工具
-     * @return
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    /**
      * 记住我功能
      * @return jdbc
      */
