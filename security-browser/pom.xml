@@ -18,6 +18,7 @@
             <artifactId>security-core</artifactId>
             <version>${security-version}</version>
         </dependency>
+        <!-- 集群session管理-->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>

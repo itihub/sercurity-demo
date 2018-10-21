@@ -2,6 +2,7 @@ package com.xxx.security.core.validate;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -10,8 +11,10 @@ import java.time.LocalDateTime;
  * @date: 2018/09/02 0002
  */
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
+
+    private static final long serialVersionUID = -1379606255664146317L;
     /**
      * 验证答案
      */
@@ -26,7 +29,6 @@ public class ValidateCode {
     public ValidateCode() {
     }
 
-    @Deprecated
     public ValidateCode(String code, LocalDateTime expireTime) {
         this.code = code;
         this.expireTime = expireTime;

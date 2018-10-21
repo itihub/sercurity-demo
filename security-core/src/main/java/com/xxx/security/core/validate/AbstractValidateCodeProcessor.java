@@ -28,6 +28,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @Autowired
     private ValidateCodeGeneratorHolder validateCodeGeneratorHolder;
 
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
+
 
     /**
      * 生成验证码
@@ -64,19 +67,11 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param validateCode
      */
     private void save(ServletWebRequest request, C validateCode) {
-        sessionStrategy.setAttribute(request
-                , getSessionKey(request)
-                , validateCode);
+        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        validateCodeRepository.save(request, code, getValidateCodeType(request));
     }
 
-    /**
-     * 构建验证码放入session时的key
-     * @param request
-     * @return
-     */
-    private String getSessionKey(ServletWebRequest request) {
-        return SESSION_KEY_PREFIX + getValidateCodeType(request).toString().toUpperCase();
-    }
+
 
     /**
      * 抽象方法 发送校验码，由子类实现
@@ -106,10 +101,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     public void validate(ServletWebRequest request) {
 
         ValidateCodeType processorType = getValidateCodeType(request);
-        String sessionKey = getSessionKey(request);
 
         //取出session
-        C codeInSession = (C) sessionStrategy.getAttribute(request, sessionKey);
+        C codeInSession = (C) validateCodeRepository.get(request, processorType);
 
         String codeInRequest;
         try {
@@ -132,7 +126,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         //判断验证码是否过期
         if (codeInSession.isExpired()) {
             //移除过期session
-            sessionStrategy.removeAttribute(request, sessionKey);
+            validateCodeRepository.remove(request, processorType);
             throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_INVALID);
         }
         //判断验证码是否匹配
@@ -140,6 +134,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
             throw new ValidateCodeException(ValidateCodeExceptionEnum.VERIFICATION_MISMATCH);
         }
 
-        sessionStrategy.removeAttribute(request, sessionKey);
+        validateCodeRepository.remove(request, processorType);
     }
 }
