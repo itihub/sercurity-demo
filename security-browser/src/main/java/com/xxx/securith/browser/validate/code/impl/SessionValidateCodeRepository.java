@@ -3,6 +3,7 @@ package com.xxx.securith.browser.validate.code.impl;
 import com.xxx.security.core.enums.ValidateCodeType;
 import com.xxx.security.core.validate.ValidateCode;
 import com.xxx.security.core.validate.ValidateCodeRepository;
+import com.xxx.security.core.validate.image.ImageCodeProcessor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -78,7 +79,7 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
      * @return
      */
     private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
-        String type = StringUtils.substringBefore(getClass().getSimpleName(), "CodeProcessor");
+        String type = StringUtils.substringBefore(ImageCodeProcessor.class.getSimpleName(), "CodeProcessor");
         return ValidateCodeType.valueOf(type.toUpperCase());
     }
 }

@@ -15,29 +15,29 @@
     <dependencies>
 
         <!-- app模块 -->
-        <dependency>
-            <groupId>com.xxx.security</groupId>
-            <artifactId>security-app</artifactId>
-            <version>${security-version}</version>
-        </dependency>
-
-        <!-- browser浏览器模块 -->
         <!--<dependency>-->
             <!--<groupId>com.xxx.security</groupId>-->
-            <!--<artifactId>security-browser</artifactId>-->
+            <!--<artifactId>security-app</artifactId>-->
             <!--<version>${security-version}</version>-->
         <!--</dependency>-->
+
+        <!-- browser浏览器模块 -->
+        <dependency>
+            <groupId>com.xxx.security</groupId>
+            <artifactId>security-browser</artifactId>
+            <version>${security-version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+            <!--<version>8.0.11</version>-->
+        <!--</dependency>-->
 
         <!--aop-->
         <dependency>

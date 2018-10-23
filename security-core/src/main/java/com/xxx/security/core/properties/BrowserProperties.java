@@ -13,12 +13,17 @@ public class BrowserProperties {
     /**
      * 登陆跳转页
      */
-    private String loginPage = "/login.html";
+    private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 
     /**
      * 注册页
      */
     private String signUpUrl = "/signUp.html";
+
+    /**
+     * 登出后跳转页
+     */
+    private String signOutUrl ;
 
     /**
      * 错误处理机制：默认跳转/json返回

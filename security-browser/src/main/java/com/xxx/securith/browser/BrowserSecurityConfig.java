@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -68,6 +69,13 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
+    /**
+     * 退出成功处理流程
+     */
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -103,13 +111,23 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .expiredSessionStrategy(sessionInformationExpiredStrategy)
                     .and()
                     .and()
+                .logout()
+                    //自定义登出访问url 默认"logout"
+                    .logoutUrl("/signout")
+                    //登出成功跳转url
+//                    .logoutSuccessUrl(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)
+                    //自定义登出成功处理流程  不能与logoutSuccessUrl共同配置 两者互斥
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    //删除指定cookie
+                    .deleteCookies("JSESSIONID")
+                    .and()
                 //授权请求配置
                 .authorizeRequests()
                 //配置无需身份验证url
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
-                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                        , "/code/*"
+                        , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
                         , securityProperties.browser.getLoginPage()
                         , securityProperties.browser.getSignUpUrl()
                         , SecurityConstants.DEFAULT_SESSION_INVALID_URL

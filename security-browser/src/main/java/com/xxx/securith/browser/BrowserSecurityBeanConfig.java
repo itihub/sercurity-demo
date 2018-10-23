@@ -1,5 +1,6 @@
 package com.xxx.securith.browser;
 
+import com.xxx.securith.browser.logout.XxxLogoutSuccessHandler;
 import com.xxx.securith.browser.session.CustomizeExpiredSessionStrategy;
 import com.xxx.securith.browser.session.CustomizeInvalidSessionStrategy;
 import com.xxx.security.core.properties.SecurityProperties;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
@@ -41,5 +43,16 @@ public class BrowserSecurityBeanConfig {
     @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
     public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(){
         return new CustomizeExpiredSessionStrategy(securityProperties.getBrowser().getSession().getSessionInvalidUrl());
+    }
+
+    /**
+     * 支持覆盖处理登出成功处理程序
+     * 实现 LogoutSuccessHandler接口即可
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(LogoutSuccessHandler.class)
+    public LogoutSuccessHandler logoutSuccessHandler(){
+        return new XxxLogoutSuccessHandler(securityProperties.getBrowser().getSignOutUrl());
     }
 }
