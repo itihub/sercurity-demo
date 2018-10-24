@@ -3,6 +3,7 @@ package com.xxx.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.xxx.dto.UserDTO;
 import com.xxx.dto.UserQueryCondition;
+import com.xxx.securith.app.social.AppSingUpUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,9 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    @Autowired
+    private AppSingUpUtils appSingUpUtils;
+
     /**
      * 用户注册
      * @param user
@@ -51,6 +55,8 @@ public class UserController {
         // TODO: 2018/10/13 注册或绑定业务逻辑
         //通过工具类将用户唯一标识传给spring social
         providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+
+        appSingUpUtils.doPostSingUp(new ServletWebRequest(request), userId);
     }
 
     /**

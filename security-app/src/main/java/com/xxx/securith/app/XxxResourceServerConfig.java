@@ -103,7 +103,8 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
                         , securityProperties.browser.getLoginPage()
                         , securityProperties.browser.getSignUpUrl()
                         , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-                        ,"/user/register").permitAll()
+                        ,"/user/register"
+                        ,"/social/signUp").permitAll()
                 //任何请求都需要身份认证
                 .anyRequest().authenticated()
                 .and()
