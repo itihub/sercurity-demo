@@ -1,9 +1,9 @@
 package com.xxx.securith.browser;
 
-import com.xxx.securith.browser.support.SocialUserInfo;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.support.SimpleResponse;
+import com.xxx.security.core.support.SocialUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

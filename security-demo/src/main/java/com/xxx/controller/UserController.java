@@ -39,6 +39,9 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    /**
+     * app注册用户工具类
+     */
     @Autowired
     private AppSingUpUtils appSingUpUtils;
 
