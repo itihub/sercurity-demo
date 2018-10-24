@@ -40,6 +40,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         /**
@@ -74,6 +77,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         XxxSpringSocialConfigurer configurer = new XxxSpringSocialConfigurer(filterProcessesUrl);
         //自定义注册地址
         configurer.signupUrl(securityProperties.browser.getSignUpUrl());
+        configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return configurer;
     }
 

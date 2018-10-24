@@ -25,6 +25,10 @@ public interface SecurityConstants {
      */
     static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
     /**
+     * 默认的OpenId登录请求处理的url
+     */
+    static final String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/authentication/openid";
+    /**
      * 默认登录页面
      * @see SecurityController
      */
@@ -41,6 +45,14 @@ public interface SecurityConstants {
      * 发送短信验证码 或 验证短信验证码时，传递手机号的参数的名称
      */
     static final String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
+    /**
+     * OpenId登录请求时 传递openid参数名称
+     */
+    static final String DEFAULT_PARAMETER_NAME_OPENID = "openid";
+    /**
+     * OpenId登录请求 传入社交提供商id参数名称
+     */
+    static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerid";
     /**
      * session失效默认的跳转地址
      */

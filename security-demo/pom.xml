@@ -15,18 +15,18 @@
     <dependencies>
 
         <!-- app模块 -->
-        <!--<dependency>-->
-            <!--<groupId>com.xxx.security</groupId>-->
-            <!--<artifactId>security-app</artifactId>-->
-            <!--<version>${security-version}</version>-->
-        <!--</dependency>-->
-
-        <!-- browser浏览器模块 -->
         <dependency>
             <groupId>com.xxx.security</groupId>
-            <artifactId>security-browser</artifactId>
+            <artifactId>security-app</artifactId>
             <version>${security-version}</version>
         </dependency>
+
+        <!-- browser浏览器模块 -->
+        <!--<dependency>-->
+            <!--<groupId>com.xxx.security</groupId>-->
+            <!--<artifactId>security-browser</artifactId>-->
+            <!--<version>${security-version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

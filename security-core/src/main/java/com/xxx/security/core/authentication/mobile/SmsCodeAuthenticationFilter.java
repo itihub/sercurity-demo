@@ -1,5 +1,6 @@
 package com.xxx.security.core.authentication.mobile;
 
+import com.xxx.security.core.properties.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SmsCodeAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
 
-    public static final String MOBILE_FORM_USERNAME_KEY = "mobile";
-
-    private String mobileParameter = MOBILE_FORM_USERNAME_KEY;
+    private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
 
 
@@ -28,7 +27,7 @@ public class SmsCodeAuthenticationFilter extends
      * 会拦截 路径为 /authentication/mobile 的post请求
      */
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods
