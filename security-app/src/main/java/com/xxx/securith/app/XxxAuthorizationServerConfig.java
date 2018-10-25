@@ -12,7 +12,13 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @description: OAuth认证服务器
@@ -35,6 +41,12 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
     @Autowired
     private TokenStore tokenStore;
 
+    @Autowired(required = false)
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    @Autowired(required = false)
+    private TokenEnhancer tokenEnhancer;
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
@@ -42,6 +54,17 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
                 .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
+
+        if (jwtAccessTokenConverter != null && tokenEnhancer != null){
+            TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(tokenEnhancer);
+            enhancers.add(jwtAccessTokenConverter);
+            enhancerChain.setTokenEnhancers(enhancers);
+            endpoints
+                    .tokenEnhancer(enhancerChain)
+                    .accessTokenConverter(jwtAccessTokenConverter);
+        }
     }
 
     @Override
@@ -58,8 +81,10 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
                         .secret(config.getClientSecret())
                         //发出令牌的有效期 单位秒
                         .accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())
+                        //刷新令牌 token有效期
+                        .refreshTokenValiditySeconds(2592000)
                         //支持的认证模式
-                        .authorizedGrantTypes("refresh_token", "password")
+                        .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                         //发出token的权限
                         .scopes("all", "read", "write");
             }

@@ -4,14 +4,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.xxx.dto.UserDTO;
 import com.xxx.dto.UserQueryCondition;
 import com.xxx.securith.app.social.AppSingUpUtils;
+import com.xxx.security.core.properties.SecurityProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +50,9 @@ public class UserController {
     @Autowired
     private AppSingUpUtils appSingUpUtils;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     /**
      * 用户注册
      * @param user
@@ -68,7 +76,24 @@ public class UserController {
      * @return
      */
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
+    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
+        return user;
+    }
+
+    @GetMapping("/app/me")
+    public Object getCurrentUserApp(Authentication user, HttpServletRequest request) throws Exception {
+
+        String header = request.getHeader("Authorization");
+        String token = StringUtils.substringAfter(header, "bearer ");
+
+        //解析jwt token  注册密签 密钥
+        Claims claims = Jwts.parser().setSigningKey(securityProperties.oauth2.getSigningKey().getBytes("UTF-8"))
+                .parseClaimsJws(token).getBody();
+
+        String company = (String) claims.get("company");
+
+        log.info("----->{}", company);
+
         return user;
     }
 
