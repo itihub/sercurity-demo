@@ -10,7 +10,7 @@ public class SocialProperties {
     /**
      * Spring social 过滤统一资源定位器 默认 auth
      */
-    private String filterProcessesUrl = "auth";
+    private String filterProcessesUrl = "/auth";
 
     /**
      * qq配置
@@ -20,7 +20,7 @@ public class SocialProperties {
     /**
      * 微信配置属性
      */
-    private WechatProperties wechat = new WechatProperties();
+    private WeChatProperties wechat = new WeChatProperties();
 
     public QQProperties getQq() {
         return qq;
@@ -30,11 +30,11 @@ public class SocialProperties {
         this.qq = qq;
     }
 
-    public WechatProperties getWechat() {
+    public WeChatProperties getWechat() {
         return wechat;
     }
 
-    public void setWechat(WechatProperties wechat) {
+    public void setWechat(WeChatProperties wechat) {
         this.wechat = wechat;
     }
 

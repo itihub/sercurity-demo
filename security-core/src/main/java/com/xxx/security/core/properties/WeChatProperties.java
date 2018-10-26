@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.social.SocialProperties;
  * @Author: JiZhe
  * @CreateDate: 2018/10/13 15:53
  */
-public class WechatProperties extends SocialProperties {
+public class WeChatProperties extends SocialProperties {
 
     /**
      * 第三放服务商唯一标识

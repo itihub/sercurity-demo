@@ -3,7 +3,6 @@ package com.xxx.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.xxx.dto.UserDTO;
 import com.xxx.dto.UserQueryCondition;
-import com.xxx.securith.app.social.AppSingUpUtils;
 import com.xxx.security.core.properties.SecurityProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -47,8 +46,8 @@ public class UserController {
     /**
      * app注册用户工具类
      */
-    @Autowired
-    private AppSingUpUtils appSingUpUtils;
+//    @Autowired
+//    private AppSingUpUtils appSingUpUtils;
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -67,7 +66,7 @@ public class UserController {
         //通过工具类将用户唯一标识传给spring social
         providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
 
-        appSingUpUtils.doPostSingUp(new ServletWebRequest(request), userId);
+//        appSingUpUtils.doPostSingUp(new ServletWebRequest(request), userId);
     }
 
     /**

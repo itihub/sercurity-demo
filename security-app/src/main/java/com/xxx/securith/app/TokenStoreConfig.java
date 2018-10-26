@@ -54,7 +54,7 @@ public class TokenStoreConfig {
         /**
          * token存储处理
          * @return
-         */
+                 */
         @Bean
         public TokenStore jwtTokenStore(){
             return new JwtTokenStore(jwtAccessTokenConverter());

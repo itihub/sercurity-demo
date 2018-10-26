@@ -11,11 +11,11 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description:获取微信用户信息
  * @Author: JiZhe
  * @CreateDate: 2018/10/13 16:04
  */
-public class WechatImpl extends AbstractOAuth2ApiBinding implements Wechat {
+public class WeChatImpl extends AbstractOAuth2ApiBinding implements WeChat {
 
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -24,7 +24,7 @@ public class WechatImpl extends AbstractOAuth2ApiBinding implements Wechat {
      */
     private static final String URL_GET_USER_INFO = "https://api.weixin.qq.com/sns/userinfo?openid=%s";
 
-    public WechatImpl(String accessToken) {
+    public WeChatImpl(String accessToken) {
         super(accessToken, TokenStrategy.ACCESS_TOKEN_PARAMETER);
     }
 
@@ -40,15 +40,15 @@ public class WechatImpl extends AbstractOAuth2ApiBinding implements Wechat {
     }
 
     @Override
-    public WechatUserInfo getUserInfo(String openId) {
+    public WeChatUserInfo getUserInfo(String openId) {
         String url = String.format(URL_GET_USER_INFO, openId);
         String response = getRestTemplate().getForObject(url, String.class);
         if (StringUtils.contains(response, "errcode")){
             return null;
         }
-        WechatUserInfo profile = null;
+        WeChatUserInfo profile = null;
         try {
-            profile = objectMapper.readValue(response, WechatUserInfo.class);
+            profile = objectMapper.readValue(response, WeChatUserInfo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,7 +8,7 @@ import lombok.Data;
  * @CreateDate: 2018/10/13 16:01
  */
 @Data
-public class WechatUserInfo {
+public class WeChatUserInfo {
 
     /**
      * 普通用户的标识，对当前开发者帐号唯一

@@ -4,7 +4,7 @@ import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
- * @description: 个性化SpringSocial配置
+ * @description: SpringSocial配置
  * @author: Administrator
  * @date: 2018/10/12 0012
  */

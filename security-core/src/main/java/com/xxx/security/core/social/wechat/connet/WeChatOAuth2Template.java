@@ -22,19 +22,31 @@ import java.util.Map;
  * @Author: JiZhe
  * @CreateDate: 2018/10/14 10:45
  */
-public class WechatOAuth2Template extends OAuth2Template {
+public class WeChatOAuth2Template extends OAuth2Template {
 
+    /**
+     * appId
+     */
     private String clientId;
 
+    /**
+     * app密钥
+     */
     private String clientSecret;
 
+    /**
+     * 微信获取accessToken的url
+     */
     private String accessTokenUrl;
 
+    /**
+     * 刷新token url
+     */
     private static final String REFRESH_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/refresh_token";
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public WechatOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
+    public WeChatOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
         super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
         setUseParametersForClientAuthentication(true);
         this.clientId = clientId;

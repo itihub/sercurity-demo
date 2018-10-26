@@ -1,7 +1,7 @@
 package com.xxx.security.core.social.wechat.connet;
 
-import com.xxx.security.core.social.wechat.api.Wechat;
-import com.xxx.security.core.social.wechat.api.WechatUserInfo;
+import com.xxx.security.core.social.wechat.api.WeChat;
+import com.xxx.security.core.social.wechat.api.WeChatUserInfo;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
@@ -11,25 +11,25 @@ import org.springframework.social.connect.UserProfile;
  * @Author: JiZhe
  * @CreateDate: 2018/10/14 10:41
  */
-public class WechatAdapter implements ApiAdapter<Wechat> {
+public class WeChatAdapter implements ApiAdapter<WeChat> {
 
     private String openId;
 
-    public WechatAdapter() {
+    public WeChatAdapter() {
     }
 
-    public WechatAdapter(String openId) {
+    public WeChatAdapter(String openId) {
         this.openId = openId;
     }
 
     @Override
-    public boolean test(Wechat api) {
+    public boolean test(WeChat api) {
         return true;
     }
 
     @Override
-    public void setConnectionValues(Wechat api, ConnectionValues values) {
-        WechatUserInfo userInfo = api.getUserInfo(openId);
+    public void setConnectionValues(WeChat api, ConnectionValues values) {
+        WeChatUserInfo userInfo = api.getUserInfo(openId);
         //第三方平台用户唯一标识
         values.setProviderUserId(userInfo.getOpenid());
         //用户显示昵称
@@ -40,12 +40,12 @@ public class WechatAdapter implements ApiAdapter<Wechat> {
     }
 
     @Override
-    public UserProfile fetchUserProfile(Wechat api) {
+    public UserProfile fetchUserProfile(WeChat api) {
         return null;
     }
 
     @Override
-    public void updateStatus(Wechat api, String message) {
+    public void updateStatus(WeChat api, String message) {
         //do nothing
     }
 }

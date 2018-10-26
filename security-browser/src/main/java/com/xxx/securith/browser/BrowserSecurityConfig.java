@@ -52,7 +52,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
      * @see com.xxx.security.core.social.SocialConfig
      */
     @Autowired
-    private SpringSocialConfigurer springSocialConfigurer;
+    private SpringSocialConfigurer xxxSpringSocialConfigurer;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -90,7 +90,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .apply(smsCodeAuthenticationSecurityConfig)
                     .and()
                 //添加 spring social配置
-                .apply(springSocialConfigurer)
+                .apply(xxxSpringSocialConfigurer)
                     .and()
                 //配置记住我功能
                 .rememberMe()

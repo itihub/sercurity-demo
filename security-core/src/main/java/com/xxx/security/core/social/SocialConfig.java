@@ -3,6 +3,7 @@ package com.xxx.security.core.social;
 import com.xxx.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
@@ -12,7 +13,6 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  * @author: Administrator
  * @date: 2018/10/08 0008
  */
-@Component
+@Configuration
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
 
@@ -72,7 +72,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
      * @return
      */
     @Bean
-    public SpringSocialConfigurer springSocialConfigurer() {
+    public SpringSocialConfigurer xxxSpringSocialConfigurer() {
         String filterProcessesUrl = securityProperties.social.getFilterProcessesUrl();
         XxxSpringSocialConfigurer configurer = new XxxSpringSocialConfigurer(filterProcessesUrl);
         //自定义注册地址

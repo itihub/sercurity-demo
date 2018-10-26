@@ -1,9 +1,9 @@
 package com.xxx.security.core.social.wechat.config;
 
 import com.xxx.security.core.properties.SecurityProperties;
-import com.xxx.security.core.properties.WechatProperties;
+import com.xxx.security.core.properties.WeChatProperties;
 import com.xxx.security.core.social.XxxConnectView;
-import com.xxx.security.core.social.wechat.connet.WechatConnectionFactory;
+import com.xxx.security.core.social.wechat.connet.WeChatConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,15 +20,15 @@ import org.springframework.web.servlet.View;
  */
 @Configuration
 @ConditionalOnProperty(prefix = "xxx.security.social.wechat", name = "app-id")
-public class WechatAutoConfiguration extends SocialAutoConfigurerAdapter {
+public class WeChatAutoConfiguration extends SocialAutoConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-        WechatProperties wechatConfig = securityProperties.getSocial().getWechat();
-        return new WechatConnectionFactory(wechatConfig.getProviderId(), wechatConfig.getAppId(),
+        WeChatProperties wechatConfig = securityProperties.getSocial().getWechat();
+        return new WeChatConnectionFactory(wechatConfig.getProviderId(), wechatConfig.getAppId(),
                 wechatConfig.getAppSecret());
     }
 
