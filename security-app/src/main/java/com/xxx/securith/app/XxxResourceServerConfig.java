@@ -2,6 +2,7 @@ package com.xxx.securith.app;
 
 import com.xxx.securith.app.social.OpenIdAuthenticationSecurityConfig;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.xxx.security.core.authorize.AuthorizeConfigManager;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
@@ -63,6 +64,12 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
     /**
+     *权限配置管理器
+     */
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
+    /**
      * 资源服务器配置
      * @param http
      * @throws Exception
@@ -93,22 +100,24 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //添加 spring social配置
                 .apply(springSocialConfigurer)
                 .and()
-                //授权请求配置
-                .authorizeRequests()
-                //配置无需身份验证url
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
-                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
-                        , securityProperties.browser.getLoginPage()
-                        , securityProperties.browser.getSignUpUrl()
-                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-                        ,"/user/register"
-                        ,"/social/signUp").permitAll()
-                //任何请求都需要身份认证
-                .anyRequest().authenticated()
-                .and()
+//                //授权请求配置
+//                .authorizeRequests()
+//                //配置无需身份验证url
+//                .antMatchers(
+//                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
+//                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+//                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
+//                        , securityProperties.browser.getLoginPage()
+//                        , securityProperties.browser.getSignUpUrl()
+//                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
+//                        ,"/user/register"
+//                        ,"/social/signUp").permitAll()
+//                //任何请求都需要身份认证
+//                .anyRequest().authenticated()
+//                .and()
                 //关闭跨站请求防护
                 .csrf().disable();
+
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }

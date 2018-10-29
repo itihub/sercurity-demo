@@ -3,6 +3,7 @@ package com.xxx.securith.browser;
 import com.xxx.securith.browser.session.CustomizeExpiredSessionStrategy;
 import com.xxx.security.core.authentication.AbstractChannelSecurityConfig;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.xxx.security.core.authorize.AuthorizeConfigManager;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
@@ -75,6 +76,11 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    /**
+     *权限配置管理器
+     */
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -121,22 +127,25 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     //删除指定cookie
                     .deleteCookies("JSESSIONID")
                     .and()
-                //授权请求配置
-                .authorizeRequests()
-                //配置无需身份验证url
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
-                        , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
-                        , securityProperties.browser.getLoginPage()
-                        , securityProperties.browser.getSignUpUrl()
-                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-                        ,"/user/register").permitAll()
-                //任何请求都需要身份认证
-                .anyRequest().authenticated()
-                    .and()
+//                //授权请求配置
+//                .authorizeRequests()
+//                //配置无需身份验证url
+//                .antMatchers(
+//                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
+//                        , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
+//                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
+//                        , securityProperties.browser.getLoginPage()
+//                        , securityProperties.browser.getSignUpUrl()
+//                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
+//                        ,"/user/register").permitAll()
+//                //任何请求都需要身份认证
+//                .anyRequest().authenticated()
+//                    .and()
                 //关闭跨站请求防护
                 .csrf().disable();
+
+                //权限授权配置
+                authorizeConfigManager.config(http.authorizeRequests());
 
     }
 
