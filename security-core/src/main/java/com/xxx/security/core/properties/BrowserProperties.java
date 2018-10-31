@@ -21,15 +21,20 @@ public class BrowserProperties {
     private String signUpUrl = "/signUp.html";
 
     /**
-     * 登出后跳转页
+     * 登出成功后跳转页
      */
-    private String signOutUrl ;
+    private String signOutUrl = "/signOut.html";
+
+    /**
+     * 登陆成功跳转页
+     */
+    private String singInSuccessUrl;
 
     /**
      * 错误处理机制：默认跳转/json返回
      * 默认跳转 即 SpringBoot 默认处理机制 BasicErrorController.class 进行处理
      */
-    private LoginType loginType = LoginType.REDIRECT;
+    private LoginType singInResponseType = LoginType.REDIRECT;
 
     /**
      * 记住我时间设置

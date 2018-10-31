@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @description: 权限配置管理器
@@ -19,7 +19,7 @@ public class XxxAuthorizeConfigManager implements AuthorizeConfigManager {
      * 将所有实现 AuthorizeConfigProvider配置提供器 收集起来
      */
     @Autowired
-    private Set<AuthorizeConfigProvider> authorizeConfigProviders;
+    private List<AuthorizeConfigProvider> authorizeConfigProviders;
 
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
@@ -29,7 +29,7 @@ public class XxxAuthorizeConfigManager implements AuthorizeConfigManager {
         }
 
         //除了配置的 所有请求都需要授权
-        config.anyRequest().authenticated();
+//        config.anyRequest().authenticated(); rbac权限引入需要注掉这行代码
 
     }
 }

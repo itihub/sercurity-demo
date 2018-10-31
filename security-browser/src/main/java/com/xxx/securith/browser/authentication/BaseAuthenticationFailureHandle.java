@@ -40,7 +40,7 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
         log.info("登录失败");
 
         //判断响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getLoginType())) {
+        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
 
             //设置响应状态
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());

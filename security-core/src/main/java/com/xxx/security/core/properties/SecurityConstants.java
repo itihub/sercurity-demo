@@ -13,7 +13,7 @@ public interface SecurityConstants {
     static final String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
     /**
      * 当请求需要身份认证时，默认跳转的url
-     * @see SecurityController
+     * @see com.xxx.securith.browser.BrowserSecurityController
      */
     static final String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";
     /**
@@ -30,7 +30,6 @@ public interface SecurityConstants {
     static final String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/authentication/openid";
     /**
      * 默认登录页面
-     * @see SecurityController
      */
     static final String DEFAULT_LOGIN_PAGE_URL = "/login.html";
     /**

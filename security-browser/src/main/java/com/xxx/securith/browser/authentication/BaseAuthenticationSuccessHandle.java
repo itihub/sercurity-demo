@@ -37,7 +37,7 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
         log.info("登陆成功");
 
         //判断响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getLoginType())) {
+        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
 
             //设置响应格式
             response.setContentType("application/json;charset=UTF-8");

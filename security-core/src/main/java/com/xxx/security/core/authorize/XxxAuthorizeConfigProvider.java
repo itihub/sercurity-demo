@@ -3,6 +3,7 @@ package com.xxx.security.core.authorize;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
  * @date: 2018/10/29 0029
  */
 @Component
+@Order(Integer.MIN_VALUE)   //加载优先级
 public class XxxAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 
