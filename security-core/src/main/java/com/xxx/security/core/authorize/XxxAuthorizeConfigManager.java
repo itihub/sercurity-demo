@@ -29,7 +29,7 @@ public class XxxAuthorizeConfigManager implements AuthorizeConfigManager {
         }
 
         //除了配置的 所有请求都需要授权
-//        config.anyRequest().authenticated(); rbac权限引入需要注掉这行代码
+//        config.anyRequest().authenticated(); //rbac权限引入需要注掉这行代码
 
     }
 }
