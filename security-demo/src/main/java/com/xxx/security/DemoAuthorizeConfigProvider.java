@@ -7,12 +7,12 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.stereotype.Component;
 
 /**
- * @description: 自定义权限配置
+ * @description: 自定义权限配置（使用动态权限认证）
  * @author: Administrator
  * @date: 2018/10/29 0029
  */
-@Component
-@Order(Integer.MAX_VALUE)   //加载优先级
+//@Component
+//@Order(Integer.MAX_VALUE)   //加载优先级
 public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 

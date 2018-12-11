@@ -33,6 +33,7 @@ public class XxxAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
                 , securityProperties.browser.getLoginPage()
                 , securityProperties.browser.getSignUpUrl()
+                , securityProperties.browser.getUnauthorized()
                 , SecurityConstants.DEFAULT_SESSION_INVALID_URL
                 , securityProperties.browser.getSignOutUrl())
                 .permitAll();

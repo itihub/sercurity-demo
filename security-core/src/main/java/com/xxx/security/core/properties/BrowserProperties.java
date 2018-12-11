@@ -26,6 +26,11 @@ public class BrowserProperties {
     private String signOutUrl = "/signOut.html";
 
     /**
+     * 未授权页面
+     */
+    private String unauthorized = "/unauthorized.html";
+
+    /**
      * 登陆成功跳转页
      */
     private String singInSuccessUrl;

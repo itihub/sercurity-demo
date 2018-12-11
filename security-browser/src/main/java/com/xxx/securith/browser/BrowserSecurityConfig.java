@@ -1,10 +1,8 @@
 package com.xxx.securith.browser;
 
-import com.xxx.securith.browser.session.CustomizeExpiredSessionStrategy;
 import com.xxx.security.core.authentication.AbstractChannelSecurityConfig;
 import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xxx.security.core.authorize.AuthorizeConfigManager;
-import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -97,6 +93,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .and()
                 //添加 spring social配置
                 .apply(xxxSpringSocialConfigurer)
+
                     .and()
                 //配置记住我功能
                 .rememberMe()
@@ -158,7 +155,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        // TODO: 2018/09/02 0002 首次使用记住我功能将一下注释打开 开启项目启动自动创建记住我功能数据表
+        // TODO: 首次使用记住我功能将一下注释打开 开启项目启动自动创建记住我功能数据表
 //        tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
     }
