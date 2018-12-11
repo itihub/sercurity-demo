@@ -92,7 +92,7 @@ public class BrowserSecurityController {
             //设置响应格式
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页")));
-
+            return null;
         }
         //html响应
         redirectStrategy.sendRedirect(request, response, securityProperties.browser.getUnauthorized());

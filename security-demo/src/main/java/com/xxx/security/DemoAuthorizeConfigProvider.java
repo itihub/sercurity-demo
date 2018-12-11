@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  * @author: Administrator
  * @date: 2018/10/29 0029
  */
-//@Component
-//@Order(Integer.MAX_VALUE)   //加载优先级
+@Component
+@Order(Integer.MAX_VALUE)   //加载优先级
 public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 
