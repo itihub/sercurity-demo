@@ -24,19 +24,15 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @EnableResourceServer
 public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    /**
-     * 引入自定义成功处理器
-     */
+    /**引入自定义成功处理器*/
     @Autowired
     private AuthenticationSuccessHandler baseAuthenticationSuccessHandle;
 
-    /**
-     * 引入自定义错误处理器
-     */
+    /**引入自定义错误处理器*/
     @Autowired
     private AuthenticationFailureHandler baseAuthenticationFailureHandle;
 
-    //短信验证安全配置
+    /** 短信验证安全配置*/
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 

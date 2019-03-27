@@ -1,4 +1,4 @@
-package com.xxx.security;
+package com.xxx.config.security;
 
 import com.xxx.security.core.authorize.AuthorizeConfigProvider;
 import org.springframework.core.annotation.Order;

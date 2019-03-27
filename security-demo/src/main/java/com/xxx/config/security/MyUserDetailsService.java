@@ -1,5 +1,7 @@
-package com.xxx.security;
+package com.xxx.config.security;
 
+import com.xxx.domain.UserEntity;
+import com.xxx.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -26,6 +28,9 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * 表单登陆验证逻辑
      * @param username
@@ -35,8 +40,15 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("request to login username : {}", username);
-        // TODO: 2018/8/26 进行DB访问查询用户
-        String password = passwordEncoder.encode("123456");
+
+        //DB查询用户
+        UserEntity user = userRepository.findByUsername(username);
+
+        if (user == null){
+            throw new UsernameNotFoundException("User does not exist.");
+        }
+
+        String password = passwordEncoder.encode(user.getPassword());
         //鉴权构造用户
         return new User(username, password
                 , true, true, true, true

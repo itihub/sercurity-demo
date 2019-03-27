@@ -80,7 +80,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     /**
      * 算数运算符
      */
-    private static char[] ops = new char[]{'+', '-', '*'};
+    private static char[] ops = new char[]{'+', '-'};
 
     /**
      * 生成数学公式
@@ -94,8 +94,8 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         int num2 = rdm.nextInt(10);
         int num3 = rdm.nextInt(10);
         //随机拿出算术运算符
-        char op1 = ops[rdm.nextInt(3)];
-        char op2 = ops[rdm.nextInt(3)];
+        char op1 = ops[rdm.nextInt(ops.length)];
+        char op2 = ops[rdm.nextInt(ops.length)];
         //拼接
         String exp = "" + num1 + op1 + num2 + op2 + num3;
         return exp;

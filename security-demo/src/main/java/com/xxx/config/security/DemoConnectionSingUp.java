@@ -1,4 +1,4 @@
-package com.xxx.security;
+package com.xxx.config.security;
 
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;

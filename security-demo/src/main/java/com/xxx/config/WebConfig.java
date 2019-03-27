@@ -1,7 +1,7 @@
 package com.xxx.config;
 
-import com.xxx.filter.TimeFilter;
-import com.xxx.interceptor.TimeInterceptor;
+import com.xxx.config.filter.TimeFilter;
+import com.xxx.config.interceptor.TimeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

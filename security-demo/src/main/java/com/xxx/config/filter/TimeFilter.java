@@ -1,4 +1,4 @@
-package com.xxx.filter;
+package com.xxx.config.filter;
 
 
 import lombok.extern.slf4j.Slf4j;
