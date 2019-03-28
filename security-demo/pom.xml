@@ -123,6 +123,7 @@
 
     <!-- 打包插件 -->
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

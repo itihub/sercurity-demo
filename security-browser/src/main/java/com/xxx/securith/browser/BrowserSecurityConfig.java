@@ -82,7 +82,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     protected void configure(HttpSecurity http) throws Exception {
 
         //配置认证口令
-        applyPasswordAuthenticationConfig(http);
+        applyPasswordAuthenticationConfig(http, securityProperties.browser.getSingInSuccessUrl());
 
         http
                 //添加验证码安全配置

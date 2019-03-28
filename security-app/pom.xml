@@ -18,6 +18,12 @@
             <artifactId>security-core</artifactId>
             <version>${security-version}</version>
         </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

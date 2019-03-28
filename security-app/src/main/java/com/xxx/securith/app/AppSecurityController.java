@@ -43,7 +43,7 @@ public class AppSecurityController {
         //转从到redis
         appSingUpUtils.saveConnectionData(new ServletWebRequest(request), connection.createData());
 
-            return userInfo;
+        return userInfo;
     }
 
 }

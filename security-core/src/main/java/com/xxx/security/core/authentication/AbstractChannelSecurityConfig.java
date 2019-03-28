@@ -27,12 +27,13 @@ public class AbstractChannelSecurityConfig extends WebSecurityConfigurerAdapter 
     private AuthenticationFailureHandler baseAuthenticationFailureHandle;
 
 
+
     /**
      * 应用口令认证配置
      * @param http
      * @throws Exception
      */
-    protected void applyPasswordAuthenticationConfig(HttpSecurity http) throws Exception {
+    protected void applyPasswordAuthenticationConfig(HttpSecurity http, String successUrl) throws Exception {
 
         //默认httpBasic认证
 //       http.httpBasic()
@@ -45,6 +46,8 @@ public class AbstractChannelSecurityConfig extends WebSecurityConfigurerAdapter 
                 //配置自定义成功处理器
                 .successHandler(baseAuthenticationSuccessHandle)
                 //配置自定义失败处理器
-                .failureHandler(baseAuthenticationFailureHandle);
+                .failureHandler(baseAuthenticationFailureHandle)
+                //登陆成功跳转URL
+                .defaultSuccessUrl(successUrl);
     }
 }
