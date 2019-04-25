@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import org.springframework.stereotype.Component;
 
 /**
- * @description: TODO
+ * @description: 令牌存储配置
  * @author: Administrator
  * @date: 2018/10/24 0024
  */
@@ -33,11 +33,11 @@ public class TokenStoreConfig {
      * 限定检查 如果有配置xxx.security.oauth2.storeType=redis  此配置文件生效
      * @return
      */
-    @Bean
-    @ConditionalOnProperty(prefix = "xxx.security.oauth2", name = "storeType", havingValue = "redis")
-    public TokenStore redisTokenStore(){
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+//    @Bean
+//    @ConditionalOnProperty(prefix = "xxx.security.oauth2", name = "storeType", havingValue = "redis")
+//    public TokenStore redisTokenStore(){
+//        return new RedisTokenStore(redisConnectionFactory);
+//    }
 
     /**
      * jwt替换默认生成token策略

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @description: TODO
+ * @description: Jwt增强Token测试
  * @author: Administrator
  * @date: 2018/10/25 0025
  */

@@ -39,26 +39,26 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
     private SecurityProperties securityProperties;
 
     @Autowired
-    private TokenStore tokenStore;
+    private TokenStore jwtTokenStore;
 
     @Autowired(required = false)
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired(required = false)
-    private TokenEnhancer tokenEnhancer;
+    private TokenEnhancer jwtTokenEnhancer;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 //使用redis存储令牌  注释一下行代码默认使用内存
-                .tokenStore(tokenStore)
+                .tokenStore(jwtTokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
 
-        if (jwtAccessTokenConverter != null && tokenEnhancer != null){
+        if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null){
             TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
             List<TokenEnhancer> enhancers = new ArrayList<>();
-            enhancers.add(tokenEnhancer);
+            enhancers.add(jwtTokenEnhancer);
             enhancers.add(jwtAccessTokenConverter);
             enhancerChain.setTokenEnhancers(enhancers);
             endpoints

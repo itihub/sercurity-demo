@@ -1,6 +1,7 @@
 package com.xxx.config.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -37,6 +38,14 @@ public class TimeInterceptor implements HandlerInterceptor {
         String methodName = handlerMethod.getMethod().getName();
 
         log.info("request clss:{} method:{}", className, methodName);
+
+        if (response.getStatus() == HttpStatus.SC_NOT_FOUND){
+            log.warn("引发404跳转的请求是：{}", request.getRequestURI());
+            response.sendRedirect("/404.html");
+        }else if (response.getStatus() == HttpStatus.SC_INTERNAL_SERVER_ERROR){
+            log.warn("引发500跳转的请求是：{}", request.getRequestURI());
+            response.sendRedirect("/500.html");
+        }
 
         //放行所有拦截
         return true;

@@ -57,4 +57,8 @@ public interface SecurityConstants {
      */
     static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid.html";
 
+    static final String DEFAULT_404_URL = "/400.html";
+
+    static final String DEFAULT_500_URL = "/500.html";
+
 }
