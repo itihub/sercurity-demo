@@ -7,7 +7,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import java.util.Collection;
 
 /**
- * @Description:短信登陆认证Token
+ * @Description: 短信登陆认证Token对象
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 17:22
  */
@@ -20,7 +20,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
 
     /**
-     *未认证构造器
+     * 未认证构造器
      */
     public SmsCodeAuthenticationToken(String mobile) {
         super(null);

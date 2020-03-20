@@ -30,7 +30,7 @@ public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode
      */
     @Override
     protected void send(ServletWebRequest servletWebRequest, ValidateCode ValidateCode) throws Exception {
-        //从请求中拿获取发送手机验证码的手机号码
+        // 从请求中拿获取发送手机验证码的手机号码
         String mobile = ServletRequestUtils.getRequiredStringParameter(servletWebRequest.getRequest(), "mobile");
         smsCodeSender.send(mobile, ValidateCode.getCode());
     }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Please sign in</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="middlePage">
+    <div class="page-header">
+        <h1 class="logo">Security <small>Welcome to our place!</small></h1>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Please Sign In</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+
+                <div class="col-md-5" >
+                    <a href="/auth/qq"><img src="./imgs/icon48_wx_button.png" /></a><br/>
+                    <a href="/auth/wechat"><img src="http://techulus.com/buttons/tw.png" /></a><br/>
+                    <a href="#"><img src="http://techulus.com/buttons/gplus.png" /></a>
+                </div>
+
+                <div class="col-md-7" style="border-left:1px solid #ccc;height:220px">
+                    <form class="form-horizontal" method="post" action="/authentication/form">
+                        <fieldset>
+
+                            <input id="username" name="username" type="text" placeholder="Enter User Name" class="form-control input-md">
+
+                            <div class="spacing">
+                                <input type="checkbox" name="remember-me" id="checkboxes-0" value="true"><small> Remember me</small>
+                            </div>
+
+                            <input id="password" name="password" type="password" placeholder="Enter Password" class="form-control input-md">
+
+                            <div class="spacing">
+                                <a href="#"><small> Forgot Password?</small></a><br/>
+                            </div>
+
+                            <div class="spacing">
+                            <img src="/code/image?width=100&height=34">
+                            <input name="imageCode" type="text" placeholder="Enter Verification code" style="display: inline; width: 300px;" class="form-control input-md">
+                            </div>
+                            <button id="singlebutton" name="singlebutton" type="submit" class="btn btn-info btn-sm pull-right">Sign In</button>
+
+
+                        </fieldset>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <p><a href="https://github.com/itihub">About</a> · ITIHub</p>
+
+</div>
+</body>
+</html>

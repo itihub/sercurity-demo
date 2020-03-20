@@ -75,14 +75,14 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
 
-        //加入表单登陆请求路径
+        // 加入表单登陆请求路径
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
-        //加入验证码校验请求路径
+        // 加入验证码校验请求路径
         addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
 
-        //加入短信登陆请求路径
+        // 加入短信登陆请求路径
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
-        //加入短信校验登陆请求路径
+        // 加入短信校验登陆请求路径
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
     }
 

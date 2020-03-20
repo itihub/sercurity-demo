@@ -6,7 +6,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import javax.servlet.ServletRequest;
 
 /**
- * @Description:
+ * @Description: 验证码存储介质接口
  * @Author: JiZhe
  * @CreateDate: 2018/10/21 17:46
  */

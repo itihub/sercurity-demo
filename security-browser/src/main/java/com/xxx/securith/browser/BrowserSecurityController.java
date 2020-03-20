@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @description: 处理不同请求的登录
+ * @description: 处理不同请求的登录控制器
  * @author: Administrator
  * @date: 2018/08/27 0027
  */
@@ -81,7 +81,7 @@ public class BrowserSecurityController {
             log.info("引发跳转的请求是：{}", redirectUrl);
             //判断此前请求的url是否是html请求
             if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
-                //跳转请求
+                //重定向到登录页面
                 redirectStrategy.sendRedirect(request, response
                         , securityProperties.browser.getLoginPage());
             }

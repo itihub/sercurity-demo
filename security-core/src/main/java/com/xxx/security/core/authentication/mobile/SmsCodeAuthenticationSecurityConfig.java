@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
- * @Description:自定义安全认证配置类
+ * @Description:自定义短信验证码安全认证配置类
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 17:53
  */
@@ -28,12 +28,14 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * 配置短信认证
+     * @param builder
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity builder) throws Exception {
 
-        /**
-         * 将自定义认证类配置
-         */
 
         /**
          * 构建自定义认证过滤器

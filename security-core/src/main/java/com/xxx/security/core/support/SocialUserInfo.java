@@ -3,7 +3,7 @@ package com.xxx.security.core.support;
 import lombok.Data;
 
 /**
- * @Description:社交用户信息对象模型
+ * @Description: 社交用户信息对象模型
  * @Author: JiZhe
  * @CreateDate: 2018/10/13 15:23
  */

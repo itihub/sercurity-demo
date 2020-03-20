@@ -4,7 +4,7 @@ import com.xxx.security.core.exception.ValidateCodeException;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * @description: 验证码校验处理器模板接口
+ * @description: 验证码创建&校验处理器模板接口
  * @author: Administrator
  * @date: 2018/09/02 0002
  */

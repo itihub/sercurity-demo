@@ -16,19 +16,24 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
 
+    /**
+     * 短信验证码身份认证逻辑
+     * @param authentication
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        //身份认证逻辑
-        //将认证转换成SmsCodeAuthenticationToken
+        // 将认证转换成SmsCodeAuthenticationToken
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
-        //获取用户登陆信息
+        // 获取用户登陆信息(根据手机号码查询用户信息)
         UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
 
         if (user == null){
             throw new InternalAuthenticationServiceException("无法读取用户信息");
         }
 
-        //构造已认证token
+        // 构造已认证token
         SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
 
         authenticationResult.setDetails(authenticationToken.getDetails());

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Description:短信登陆认证过滤器
+ * @Description: 短信登陆认证过滤器
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 17:28
  */
@@ -51,6 +51,7 @@ public class SmsCodeAuthenticationFilter extends
 
 
         mobile = mobile.trim();
+        // 构造短信验证码认证实例
         SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
 
         // 请求详情设置到SmsCodeAuthenticationToken
