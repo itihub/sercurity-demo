@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Description: 短信登陆认证过滤器
  * @Author: JiZhe
- * @CreateDate: 2018/9/24 17:28
  */
 public class SmsCodeAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
@@ -51,12 +50,13 @@ public class SmsCodeAuthenticationFilter extends
 
 
         mobile = mobile.trim();
-        // 构造短信验证码认证实例
+        // 1. 构造短信验证码认证实例
         SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
 
-        // 请求详情设置到SmsCodeAuthenticationToken
+        // 2. 请求详情设置到SmsCodeAuthenticationToken
         setDetails(request, authRequest);
 
+        // 3. 进行认证
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

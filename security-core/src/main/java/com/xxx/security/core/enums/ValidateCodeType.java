@@ -4,7 +4,7 @@ package com.xxx.security.core.enums;
 import com.xxx.security.core.properties.SecurityConstants;
 
 /**
- * @Description:验证类型枚举
+ * @Description: 验证类型枚举
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 19:20
  */

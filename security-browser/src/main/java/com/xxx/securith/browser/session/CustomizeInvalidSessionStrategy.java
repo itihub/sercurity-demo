@@ -15,12 +15,17 @@ import java.io.IOException;
  */
 public class CustomizeInvalidSessionStrategy extends AbstractSessionStrategy implements InvalidSessionStrategy {
 
+    /**
+     * 构造器
+     * @param invalidSessionUrl
+     */
     public CustomizeInvalidSessionStrategy(String invalidSessionUrl) {
         super(invalidSessionUrl);
     }
 
     @Override
     public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // 调用父类session失效处理
         onSessionInvalid(request, response);
     }
 }

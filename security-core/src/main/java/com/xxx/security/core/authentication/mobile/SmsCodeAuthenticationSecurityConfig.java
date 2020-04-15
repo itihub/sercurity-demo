@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
- * @Description:自定义短信验证码安全认证配置类
+ * @Description: 自定义短信验证码安全认证配置类
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 17:53
  */
@@ -38,7 +38,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
 
         /**
-         * 构建自定义认证过滤器
+         * 构建自定义短信认证过滤器
          */
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         smsCodeAuthenticationFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
@@ -46,13 +46,13 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 
         /**
-         * 构建自定义认证逻辑类
+         * 构建自定义短信认证逻辑类
          */
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
 
         /**
-         * 进行配置以及过滤器添加
+         * 将短信认证过滤器 加入到用户名密码认证过滤器之后
          */
         builder.authenticationProvider(smsCodeAuthenticationProvider)
                 .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

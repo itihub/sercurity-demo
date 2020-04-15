@@ -37,7 +37,7 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             , AuthenticationException exception)
             throws IOException, ServletException {
 
-        log.info("登录失败");
+        log.info("Login failed!");
 
         //判断响应类型
         if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {

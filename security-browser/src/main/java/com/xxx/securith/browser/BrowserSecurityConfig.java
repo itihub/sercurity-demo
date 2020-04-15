@@ -27,19 +27,27 @@ import javax.sql.DataSource;
 @Configuration
 public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
-    //读取配置文件
+    /**
+     * 自定义配置文件
+     */
     @Autowired
     private SecurityProperties securityProperties;
 
-    //引入数据源
+    /**
+     * 数据源
+     */
     @Autowired
     private DataSource dataSource;
 
-    //处理验证码过滤器配置
+    /**
+     * 图形验证码安全验证配置
+     */
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
-    //短信验证安全配置
+    /**
+     * 短息验证码安全验证配置
+     */
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
@@ -61,19 +69,19 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     private InvalidSessionStrategy invalidSessionStrategy;
 
     /**
-     *session过期策略（比如：同一账号 另一处登陆）
+     * session过期策略（比如：同一账号 另一处登陆）
      */
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
     /**
-     * 退出成功处理流程
+     * 登出成功处理流程
      */
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
     /**
-     *权限配置管理器
+     * 权限配置管理器
      */
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
@@ -124,22 +132,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     //删除指定cookie
                     .deleteCookies("JSESSIONID")
                     .and()
-//                //授权请求配置
-//                .authorizeRequests()
-//                //配置无需身份验证url
-//                .antMatchers(
-//                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
-//                        , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-//                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
-//                        , securityProperties.browser.getLoginPage()
-//                        , securityProperties.browser.getSignUpUrl()
-//                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-//                        ,"/user/register").permitAll()
-//                //任何请求都需要身份认证
-//                .anyRequest().authenticated()
-//                    .and()
                 //关闭跨站请求防护
-                .csrf().disable();
+                .csrf()
+                    .disable();
 
                 //权限授权配置
                 authorizeConfigManager.config(http.authorizeRequests());

@@ -31,6 +31,9 @@ public class XxxAuthorizeConfigProvider implements AuthorizeConfigProvider {
                 , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                 , SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_OPENID
                 , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
+                , "/swagger-ui.html"
+                , "/v2/api-docs"
+                , "/swagger-resources/*"
                 , securityProperties.browser.getLoginPage()
                 , securityProperties.browser.getSignUpUrl()
                 , securityProperties.browser.getUnauthorized()

@@ -39,7 +39,7 @@ public class AbstractChannelSecurityConfig extends WebSecurityConfigurerAdapter 
 //       http.httpBasic()
 
         http.formLogin()
-                //需要身份认证的接口
+                //需要身份认证资源跳转到的URI
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
                 //登陆处理接口
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)

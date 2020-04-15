@@ -14,6 +14,10 @@ import java.io.IOException;
  */
 public class CustomizeExpiredSessionStrategy extends AbstractSessionStrategy implements SessionInformationExpiredStrategy {
 
+    /**
+     * 构造器
+     * @param invalidSessionUrl 失效sessionURL
+     */
     public CustomizeExpiredSessionStrategy(String invalidSessionUrl) {
         super(invalidSessionUrl);
     }
@@ -27,7 +31,7 @@ public class CustomizeExpiredSessionStrategy extends AbstractSessionStrategy imp
      */
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
-        //调用父类session失效处理
+        // 调用父类session失效处理
         onSessionInvalid(event.getRequest(), event.getResponse());
     }
 

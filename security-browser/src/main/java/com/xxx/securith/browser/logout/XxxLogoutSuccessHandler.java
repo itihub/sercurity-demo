@@ -42,9 +42,9 @@ public class XxxLogoutSuccessHandler implements LogoutSuccessHandler {
             , HttpServletResponse response
             , Authentication authentication) throws IOException, ServletException {
 
-        log.info("登出成功");
+        log.info("Logout success!");
 
-        //判断 登出跳转url是够为空
+        // 判断 登出跳转url是够为空
         if (StringUtils.isBlank(signOutUrl)){
             //为 空 json形式返回
             response.setContentType("application/json;charset=UTF-8");

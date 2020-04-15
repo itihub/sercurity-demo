@@ -60,12 +60,12 @@ public class AbstractSessionStrategy {
             request.getSession();
         }
 
-        //获取请求uri
+        // 获取请求uri
         String sourceUrl = request.getRequestURI();
 
-        //判断请求是否包含html后缀
+        // 判断请求是否包含html后缀
         if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
-            String targetUrl = destinationUrl+".html";
+            String targetUrl = destinationUrl;
             log.info("session失效,跳转到 {}", targetUrl);
             //html 重定向响应
             redirectStrategy.sendRedirect(request, response, targetUrl);

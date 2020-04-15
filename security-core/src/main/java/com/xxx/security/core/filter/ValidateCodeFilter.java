@@ -29,6 +29,7 @@ import java.util.Set;
  * 继承OncePerRequestFilter 保证每次只会被调用一次
  *
  * @description: 通用验证过滤器
+ *          用来给指定URI 做验图形证码或手机验证码验证
  * @author: Administrator
  * @date: 2018/08/28 0028
  */
@@ -74,6 +75,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
+
+        // TODO: 此处可做增强 根据securityProperties的相关配置来自定义需要验证的URL
 
         // 加入表单登陆请求路径
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);

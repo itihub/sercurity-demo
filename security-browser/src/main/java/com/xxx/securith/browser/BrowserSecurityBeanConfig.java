@@ -13,7 +13,7 @@ import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
 /**
- * @description: 浏览器安全性配置
+ * @description: 浏览器安全相关配置
  * @author: Administrator
  * @date: 2018/10/19 0019
  */
@@ -24,7 +24,7 @@ public class BrowserSecurityBeanConfig {
     private SecurityProperties securityProperties;
 
     /**
-     * 支持覆盖处理默认session失效
+     * 覆盖处理默认session失效
      * 实现 @see org.springframework.security.web.session.InvalidSessionStrategy 接口即可
      * @return
      */
@@ -35,7 +35,7 @@ public class BrowserSecurityBeanConfig {
     }
 
     /**
-     * 支持覆盖处理默认session过期
+     * 覆盖处理默认session过期
      * 实现 @see org.springframework.security.web.session.SessionInformationExpiredStrategy 接口
      * @return
      */
@@ -46,7 +46,7 @@ public class BrowserSecurityBeanConfig {
     }
 
     /**
-     * 支持覆盖处理登出成功处理程序
+     * 覆盖处理登出成功处理程序
      * 实现 LogoutSuccessHandler接口即可
      * @return
      */

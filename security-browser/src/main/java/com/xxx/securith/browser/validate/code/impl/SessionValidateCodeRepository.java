@@ -12,7 +12,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 
 /**
- * @Description: 浏览器验证码存储
+ * @Description: 浏览器验证码存储实现
  * @Author: JiZhe
  * @CreateDate: 2018/10/21 17:57
  */

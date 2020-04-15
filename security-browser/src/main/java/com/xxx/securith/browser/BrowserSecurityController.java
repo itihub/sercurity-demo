@@ -62,7 +62,7 @@ public class BrowserSecurityController {
     private ObjectMapper objectMapper;
 
     /**
-     * 当需要身份认证时，跳转到这里
+     * 处理身份认证
      * @param request
      * @param response
      * @return
@@ -72,29 +72,36 @@ public class BrowserSecurityController {
     public Object requireAuthentication(HttpServletRequest request
             , HttpServletResponse response) throws IOException {
 
-        //拿到引发跳转的请求
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        /**
+         * 用户访问未授权的地址跳转到授权地址，相关的业务逻辑
+         * 场景1
+         *      引发跳转的地址是login，那么重定向到登录页面
+         * 场景2
+         *      引发跳转的地址非login，展示未授权页面
+         */
 
+        // 从Session请求缓存中拿到引发跳转的请求
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             //获取请求的URL
             String redirectUrl = savedRequest.getRedirectUrl();
             log.info("引发跳转的请求是：{}", redirectUrl);
-            //判断此前请求的url是否是html请求
-            if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
+            //判断此前请求的路径 后缀是否是login
+            if (StringUtils.endsWithIgnoreCase(redirectUrl, "login")) {
                 //重定向到登录页面
                 redirectStrategy.sendRedirect(request, response
                         , securityProperties.browser.getLoginPage());
             }
         }
 
-        //判断响应类型
+        // 判断配置的响应类型
         if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
-            //设置响应格式
+            // 设置JSON响应格式
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页")));
             return null;
         }
-        //html响应
+        // 跳转html响应
         redirectStrategy.sendRedirect(request, response, securityProperties.browser.getUnauthorized());
         return null;
 
