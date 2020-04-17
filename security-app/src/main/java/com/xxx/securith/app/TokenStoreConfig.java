@@ -33,11 +33,11 @@ public class TokenStoreConfig {
      * 限定检查 如果有配置xxx.security.oauth2.storeType=redis  此配置文件生效
      * @return
      */
-//    @Bean
-//    @ConditionalOnProperty(prefix = "xxx.security.oauth2", name = "storeType", havingValue = "redis")
-//    public TokenStore redisTokenStore(){
-//        return new RedisTokenStore(redisConnectionFactory);
-//    }
+    @Bean
+    @ConditionalOnProperty(prefix = "xxx.security.oauth2", name = "storeType", havingValue = "redis")
+    public TokenStore tokenStore(){
+        return new RedisTokenStore(redisConnectionFactory);
+    }
 
     /**
      * jwt替换默认生成token策略
@@ -56,7 +56,7 @@ public class TokenStoreConfig {
          * @return
                  */
         @Bean
-        public TokenStore jwtTokenStore(){
+        public TokenStore tokenStore(){
             return new JwtTokenStore(jwtAccessTokenConverter());
         }
 

@@ -2,6 +2,9 @@ package com.xxx.config.security;
 
 import com.xxx.domain.UserEntity;
 import com.xxx.repository.UserRepository;
+import com.xxx.security.core.authentication.mobile.userdetails.MobileUser;
+import com.xxx.security.core.authentication.mobile.userdetails.MobileUserDetails;
+import com.xxx.security.core.authentication.mobile.userdetails.MobileUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -22,7 +25,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class MyUserDetailsService implements UserDetailsService, SocialUserDetailsService {
+public class MyUserDetailsService implements UserDetailsService, SocialUserDetailsService, MobileUserDetailsService {
 
 
     @Autowired
@@ -49,10 +52,10 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
         }
 
         String password = passwordEncoder.encode(user.getPassword());
-        //鉴权构造用户
+        // 鉴权构造用户  OAth需要ROLE_USER才可访问API
         return new User(username, password
                 , true, true, true, true
-                , AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                , AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
     }
 
     @Override
@@ -61,6 +64,22 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
         // TODO: 2018/8/26 使用userId（及第三方openid）进行DB UserConnection表访问查询用户信息
         String password = passwordEncoder.encode("123456");
         return new SocialUser(userId, password
+                , true, true, true, true
+                , AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+    }
+
+    @Override
+    public MobileUserDetails loadUserByMobile(String mobile) throws UsernameNotFoundException {
+        log.info("request to login mobile : {}", mobile);
+        UserEntity user = userRepository.findByMobile(mobile);
+
+        if (user == null){
+            throw new UsernameNotFoundException("User does not exist.");
+        }
+
+        String password = passwordEncoder.encode(user.getPassword());
+        //鉴权构造用户
+        return new MobileUser(user.getUsername(), password
                 , true, true, true, true
                 , AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }

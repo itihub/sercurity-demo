@@ -87,7 +87,7 @@ public class BrowserSecurityController {
             String redirectUrl = savedRequest.getRedirectUrl();
             log.info("引发跳转的请求是：{}", redirectUrl);
             //判断此前请求的路径 后缀是否是login
-            if (StringUtils.endsWithIgnoreCase(redirectUrl, "login")) {
+            if (StringUtils.endsWithIgnoreCase(redirectUrl, "login") ||StringUtils.endsWithIgnoreCase(redirectUrl, "login.html") ) {
                 //重定向到登录页面
                 redirectStrategy.sendRedirect(request, response
                         , securityProperties.browser.getLoginPage());

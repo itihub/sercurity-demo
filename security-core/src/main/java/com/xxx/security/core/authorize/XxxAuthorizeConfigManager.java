@@ -29,7 +29,7 @@ public class XxxAuthorizeConfigManager implements AuthorizeConfigManager {
         }
 
         // TODO: 如需引用动态权限认证需要注掉一下代码
-        // TODO: 如卸载动态权限认证需要打开一下代码          （一下代码含义：任何请求都需要权限认证）
+        // TODO: 如卸载动态权限认证需要打开一下代码          （以下代码含义：任何请求都需要权限认证）
         //除了配置的 所有请求都需要授权
         config.anyRequest().authenticated(); //rbac权限引入需要注掉这行代码
 

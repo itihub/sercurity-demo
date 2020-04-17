@@ -8,9 +8,9 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS `security` DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS `securitydb` DEFAULT CHARACTER SET = utf8mb4;
 
-Use `security`;
+Use `securitydb`;
 
 # Dump of table tb_user
 # ------------------------------------------------------------
@@ -20,6 +20,8 @@ DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` bigint unsigned NOT NULL COMMENT '主键',
   `username` varchar(32) NOT NULL COMMENT '用户名',
+  `mobile` varchar(32) NOT NULL COMMENT '手机号码',
+  `email` varchar(32) NOT NULL COMMENT '电子邮箱',
   `password` varchar(128) DEFAULT NULL COMMENT '密码',
   `create_time` datetime NOT NULL COMMENT '创建时间 创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间 更新',

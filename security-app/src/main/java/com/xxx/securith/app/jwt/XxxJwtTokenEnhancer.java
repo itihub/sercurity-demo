@@ -19,7 +19,7 @@ public class XxxJwtTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication oAuth2Authentication) {
         Map<String, Object> info = new HashMap<>();
-        info.put("company", "XXX");
+        info.put("company", "itihub.Inc.");
         //给OAuth2AccessToken 设置附加信息
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
         return accessToken;

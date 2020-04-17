@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @description: 自定义失败处理器
+ * @description: 自定义认证失败处理器
  * @author: Administrator
  * @date: 2018/08/27 0027
  */
@@ -37,7 +37,7 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             , AuthenticationException exception)
             throws IOException, ServletException {
 
-        log.info("登录失败");
+        log.info("Login failed!");
 
         //判断响应类型
         if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {

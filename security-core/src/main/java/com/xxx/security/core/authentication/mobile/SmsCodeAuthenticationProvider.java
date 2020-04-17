@@ -1,11 +1,11 @@
 package com.xxx.security.core.authentication.mobile;
 
+import com.xxx.security.core.authentication.mobile.userdetails.MobileUserDetailsService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @Description:短信登陆认证类
@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
+    private MobileUserDetailsService userDetailsService;
 
     /**
      * 短信验证码身份认证逻辑
@@ -27,7 +27,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         // 将认证转换成SmsCodeAuthenticationToken
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
         // 获取用户登陆信息(根据手机号码查询用户信息)
-        UserDetails user = userDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
+        UserDetails user = userDetailsService.loadUserByMobile((String) authenticationToken.getPrincipal());
 
         if (user == null){
             throw new InternalAuthenticationServiceException("无法读取用户信息");
@@ -47,11 +47,11 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
-    public UserDetailsService getUserDetailsService() {
+    public MobileUserDetailsService getUserDetailsService() {
         return userDetailsService;
     }
 
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
+    public void setUserDetailsService(MobileUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 }

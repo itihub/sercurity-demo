@@ -39,7 +39,7 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
     private SecurityProperties securityProperties;
 
     @Autowired
-    private TokenStore jwtTokenStore;
+    private TokenStore tokenStore;
 
     @Autowired(required = false)
     private JwtAccessTokenConverter jwtAccessTokenConverter;
@@ -51,7 +51,7 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 //使用redis存储令牌  注释一下行代码默认使用内存
-                .tokenStore(jwtTokenStore)
+                .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
 
@@ -72,9 +72,9 @@ public class XxxAuthorizationServerConfig extends AuthorizationServerConfigurerA
 
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
 
-        //判断是否配置oauth client
+        // 判断是否配置oauth client
         if (ArrayUtils.isNotEmpty(securityProperties.oauth2.getClients())){
-            //遍历配置属性
+            // 遍历配置属性
             for (OAuth2ClientProperties config : securityProperties.oauth2.getClients()) {
 
                 builder.withClient(config.getClientId())

@@ -65,7 +65,7 @@ public class AbstractSessionStrategy {
 
         // 判断请求是否包含html后缀
         if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
-            String targetUrl = destinationUrl;
+            String targetUrl = sourceUrl;
             log.info("session失效,跳转到 {}", targetUrl);
             //html 重定向响应
             redirectStrategy.sendRedirect(request, response, targetUrl);

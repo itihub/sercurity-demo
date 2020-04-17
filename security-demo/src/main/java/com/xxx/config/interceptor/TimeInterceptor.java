@@ -83,6 +83,8 @@ public class TimeInterceptor implements HandlerInterceptor {
         long startTime = (long) request.getAttribute("startTime");
 
         log.info("this is request time consuming {}", endTime - startTime);
-        log.info("exception is {}", ex);
+        if (ex != null){
+            log.error("exception is", ex);
+        }
     }
 }

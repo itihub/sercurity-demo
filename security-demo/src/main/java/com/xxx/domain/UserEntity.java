@@ -20,6 +20,10 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
+    private String mobile;
+
+    private String email;
+
     private String password;
 
 }

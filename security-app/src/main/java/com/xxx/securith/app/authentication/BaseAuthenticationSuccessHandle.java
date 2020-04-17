@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @description: 自定义成功处理器
+ * @description: 自定义认证成功处理器
  * @author: Administrator
  * @date: 2018/08/27 0027
  */
@@ -48,7 +48,7 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
             , HttpServletResponse response, Authentication authentication)
             throws ServletException, IOException {
 
-        log.info("登陆成功");
+        log.info("Login successful!");
 
         //获取请求头
         String header = request.getHeader("Authorization");

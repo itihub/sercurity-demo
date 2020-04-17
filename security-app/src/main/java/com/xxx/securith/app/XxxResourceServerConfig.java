@@ -17,6 +17,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * @description: 资源服务器
+ * @see org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter
  * @author: Administrator
  * @date: 2018/10/19 0019
  */
@@ -35,9 +36,6 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
     /** 短信验证安全配置*/
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
-    @Autowired
-    private SecurityProperties securityProperties;
 
     /**
      * 社交配置 即第三方登录介入配置
@@ -85,8 +83,8 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
                 //添加验证码安全配置
                 // TODO: 2018/10/23 0023  无需用户名密码登录 图形验证码请注掉以下两行代码
-//                .apply(validateCodeSecurityConfig)
-//                .and()
+                .apply(validateCodeSecurityConfig)
+                .and()
                 //添加短信安全配置
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
@@ -96,23 +94,9 @@ public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //添加 spring social配置
                 .apply(springSocialConfigurer)
                 .and()
-//                //授权请求配置
-//                .authorizeRequests()
-//                //配置无需身份验证url
-//                .antMatchers(
-//                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL
-//                        ,SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-//                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
-//                        , securityProperties.browser.getLoginPage()
-//                        , securityProperties.browser.getSignUpUrl()
-//                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-//                        ,"/user/register"
-//                        ,"/social/signUp").permitAll()
-//                //任何请求都需要身份认证
-//                .anyRequest().authenticated()
-//                .and()
                 //关闭跨站请求防护
-                .csrf().disable();
+                .csrf()
+                    .disable();
 
         authorizeConfigManager.config(http.authorizeRequests());
     }
