@@ -3,6 +3,7 @@ package com.xxx.security.core.social;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.social.connect.Connection;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
@@ -47,7 +48,7 @@ public class XxxConnectionStatusView extends AbstractView {
         }
 
         //设置响应编码
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(result));
     }
 

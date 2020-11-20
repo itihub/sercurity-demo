@@ -5,6 +5,7 @@ import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -37,17 +38,23 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
         log.info("Login successful!");
 
         //判断响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
-
-            //设置响应格式
-            response.setContentType("application/json;charset=UTF-8");
-            //将 Authentication 以json形式写回
-            response.getWriter().write(objectMapper.writeValueAsString(authentication));
-        } else {
-            //跳转（默认）
-            super.onAuthenticationSuccess(request, response, authentication);
+        switch (securityProperties.browser.getSingInResponseType()){
+            case REDIRECT:
+                //跳转（默认）
+                super.onAuthenticationSuccess(request, response, authentication);
+                break;
+            case JSON:
+                //设置响应格式
+                response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                //将 Authentication 以json形式写回
+                response.getWriter().write(objectMapper.writeValueAsString(authentication));
+                break;
+            default:
+                log.info("not support response type : [{}]", securityProperties.browser.getSingInResponseType());
+                //跳转（默认）
+                super.onAuthenticationSuccess(request, response, authentication);
+                break;
         }
-
 
     }
 }

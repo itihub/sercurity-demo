@@ -5,7 +5,7 @@ import com.xxx.security.core.authentication.mobile.SmsCodeAuthenticationSecurity
 import com.xxx.security.core.authorize.AuthorizeConfigManager;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,67 +24,58 @@ import javax.sql.DataSource;
  * @author: Administrator
  * @date: 2018/10/15 0015
  */
+@RequiredArgsConstructor
 @Configuration
 public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     /**
      * 自定义配置文件
      */
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     /**
      * 数据源
      */
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     /**
      * 图形验证码安全验证配置
      */
-    @Autowired
-    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     /**
      * 短息验证码安全验证配置
      */
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     /**
      * 社交配置 即第三方登录介入配置
      * 引入SpringSocialConfigurer
      * @see com.xxx.security.core.social.SocialConfig
      */
-    @Autowired
-    private SpringSocialConfigurer xxxSpringSocialConfigurer;
+    private final SpringSocialConfigurer xxxSpringSocialConfigurer;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     /**
      * session失效策略
      */
-    @Autowired
-    private InvalidSessionStrategy invalidSessionStrategy;
+    private final InvalidSessionStrategy invalidSessionStrategy;
 
     /**
      * session过期策略（比如：同一账号 另一处登陆）
      */
-    @Autowired
-    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+    private final SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
     /**
      * 登出成功处理流程
      */
-    @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
+    private final LogoutSuccessHandler logoutSuccessHandler;
 
     /**
      * 权限配置管理器
      */
-    @Autowired
-    private AuthorizeConfigManager authorizeConfigManager;
+    private final AuthorizeConfigManager authorizeConfigManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

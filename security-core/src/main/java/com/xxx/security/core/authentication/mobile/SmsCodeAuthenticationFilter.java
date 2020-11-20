@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Description: 短信登陆认证过滤器
  * @Author: JiZhe
  */
-public class SmsCodeAuthenticationFilter extends
-        AbstractAuthenticationProcessingFilter {
+public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
@@ -56,7 +55,7 @@ public class SmsCodeAuthenticationFilter extends
         // 2. 请求详情设置到SmsCodeAuthenticationToken
         setDetails(request, authRequest);
 
-        // 3. 进行认证
+        // 3. 进行认证 即调用SmsCodeAuthenticationProvider类中的authenticate方法
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

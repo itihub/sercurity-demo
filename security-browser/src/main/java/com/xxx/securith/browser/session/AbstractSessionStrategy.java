@@ -5,6 +5,7 @@ import com.xxx.security.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
@@ -76,7 +77,7 @@ public class AbstractSessionStrategy {
                 message = String.format(message, "，有可能是并发登录导致的");
             }
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setContentType("application/json;charset=UTF-8");
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(message)));
         }
 

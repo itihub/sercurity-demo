@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
@@ -81,7 +82,7 @@ public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthentica
         OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
         //设置响应格式
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         //将 accessToken 以json形式写回
         response.getWriter().write(objectMapper.writeValueAsString(accessToken));
 

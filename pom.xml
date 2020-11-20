@@ -12,9 +12,12 @@
         <module>security-core</module>
         <module>security-app</module>
         <module>security-browser</module>
-        <module>security-demo</module>
         <module>security-authorize</module>
+        <module>demo/security-demo-browser</module>
+        <module>demo/security-demo-app</module>
     </modules>
+
+    <name>Security Core :: Parent</name>
 
     <properties>
         <security-version>1.0-SNAPSHOT</security-version>

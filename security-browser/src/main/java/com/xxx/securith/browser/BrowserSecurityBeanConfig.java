@@ -4,7 +4,7 @@ import com.xxx.securith.browser.logout.XxxLogoutSuccessHandler;
 import com.xxx.securith.browser.session.CustomizeExpiredSessionStrategy;
 import com.xxx.securith.browser.session.CustomizeInvalidSessionStrategy;
 import com.xxx.security.core.properties.SecurityProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +17,11 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
  * @author: Administrator
  * @date: 2018/10/19 0019
  */
+@RequiredArgsConstructor
 @Configuration
 public class BrowserSecurityBeanConfig {
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     /**
      * 覆盖处理默认session失效

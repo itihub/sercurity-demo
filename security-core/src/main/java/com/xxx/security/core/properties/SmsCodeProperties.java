@@ -21,7 +21,7 @@ public class SmsCodeProperties {
     private int expireIn = 60;
 
     /**
-     * 需要图形验证码的请求路径
+     * 需要短信验证码的请求路径
      */
     private String url;
 

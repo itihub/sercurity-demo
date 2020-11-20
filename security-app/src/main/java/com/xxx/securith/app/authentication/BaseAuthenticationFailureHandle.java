@@ -7,6 +7,7 @@ import com.xxx.security.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,7 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
             //设置响应状态
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             //设置响应格式
-            response.setContentType("application/json;charset=UTF-8");
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             //将 Authentication 以json形式写回
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {

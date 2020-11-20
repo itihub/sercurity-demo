@@ -11,9 +11,11 @@
     <description>RBAC权限模块</description>
 
     <artifactId>security-authorize</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Security Core :: Authorize</name>
 
     <dependencies>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

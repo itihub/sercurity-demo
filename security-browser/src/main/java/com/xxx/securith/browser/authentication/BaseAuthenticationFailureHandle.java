@@ -1,12 +1,12 @@
 package com.xxx.securith.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -40,19 +40,25 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
         log.info("Login failed!");
 
         //判断响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
-
-            //设置响应状态
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            //设置响应格式
-            response.setContentType("application/json;charset=UTF-8");
-            //将 Authentication 以json形式写回
-            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-        } else {
-            //跳转（默任）
-            super.onAuthenticationFailure(request, response, exception);
+        switch (securityProperties.browser.getSingInResponseType()){
+            case REDIRECT:
+                //跳转（默任）
+                super.onAuthenticationFailure(request, response, exception);
+                break;
+            case JSON:
+                //设置响应状态
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                //设置响应格式
+                response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                //将 Authentication 以json形式写回
+                response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
+                break;
+            default:
+                //跳转（默任）
+                log.info("not support response type : [{}]", securityProperties.browser.getSingInResponseType());
+                super.onAuthenticationFailure(request, response, exception);
+                break;
         }
-
 
     }
 }

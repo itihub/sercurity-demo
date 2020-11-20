@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: 自定义短信验证码安全认证配置类
+ * @Description: Security扩展短信认证方式
  * @Author: JiZhe
  * @CreateDate: 2018/9/24 17:53
  */

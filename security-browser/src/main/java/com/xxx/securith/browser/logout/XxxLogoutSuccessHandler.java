@@ -5,6 +5,7 @@ import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
@@ -47,7 +48,7 @@ public class XxxLogoutSuccessHandler implements LogoutSuccessHandler {
         // 判断 登出跳转url是够为空
         if (StringUtils.isBlank(signOutUrl)){
             //为 空 json形式返回
-            response.setContentType("application/json;charset=UTF-8");
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("退出成功")));
         }else {
             //不为空 跳转

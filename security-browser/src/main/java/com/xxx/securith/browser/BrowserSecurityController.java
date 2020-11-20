@@ -1,7 +1,6 @@
 package com.xxx.securith.browser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.support.SimpleResponse;
@@ -9,6 +8,7 @@ import com.xxx.security.core.support.SocialUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -75,7 +75,7 @@ public class BrowserSecurityController {
         /**
          * 用户访问未授权的地址跳转到授权地址，相关的业务逻辑
          * 场景1
-         *      引发跳转的地址是login，那么重定向到登录页面
+         *      引发跳转的地址是login.html，那么重定向到登录页面
          * 场景2
          *      引发跳转的地址非login，展示未授权页面
          */
@@ -87,7 +87,7 @@ public class BrowserSecurityController {
             String redirectUrl = savedRequest.getRedirectUrl();
             log.info("引发跳转的请求是：{}", redirectUrl);
             //判断此前请求的路径 后缀是否是login
-            if (StringUtils.endsWithIgnoreCase(redirectUrl, "login") ||StringUtils.endsWithIgnoreCase(redirectUrl, "login.html") ) {
+            if (StringUtils.endsWithIgnoreCase(redirectUrl, securityProperties.browser.getLoginPage()) ) {
                 //重定向到登录页面
                 redirectStrategy.sendRedirect(request, response
                         , securityProperties.browser.getLoginPage());
@@ -95,16 +95,21 @@ public class BrowserSecurityController {
         }
 
         // 判断配置的响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
-            // 设置JSON响应格式
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页")));
-            return null;
+        switch (securityProperties.browser.getSingInResponseType()){
+            case REDIRECT:
+                redirectStrategy.sendRedirect(request, response, securityProperties.browser.getUnauthorized());
+                break;
+            case JSON:
+                response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页")));
+                break;
+            default:
+                log.info("not support response type : [{}]", securityProperties.browser.getSingInResponseType());
+                redirectStrategy.sendRedirect(request, response, securityProperties.browser.getUnauthorized());
+                break;
         }
-        // 跳转html响应
-        redirectStrategy.sendRedirect(request, response, securityProperties.browser.getUnauthorized());
-        return null;
 
+        return null;
     }
 
     /**
