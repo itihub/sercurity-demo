@@ -3,6 +3,7 @@ package com.xxx.securith.app.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,20 +30,17 @@ import java.io.IOException;
  * @date: 2018/08/27 0027
  */
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class BaseAuthenticationSuccessHandle extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
-    @Autowired
-    private ClientDetailsService clientDetailsService;
+    private final ClientDetailsService clientDetailsService;
 
-    @Autowired
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
+    private final AuthorizationServerTokenServices authorizationServerTokenServices;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request

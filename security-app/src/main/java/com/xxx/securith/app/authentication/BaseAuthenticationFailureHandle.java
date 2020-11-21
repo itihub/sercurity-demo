@@ -1,11 +1,10 @@
 package com.xxx.securith.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xxx.security.core.properties.LoginType;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.support.SimpleResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -23,14 +22,13 @@ import java.io.IOException;
  * @date: 2018/08/27 0027
  */
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFailureHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private SecurityProperties securityProperties;
+    private final SecurityProperties securityProperties;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request
@@ -40,19 +38,13 @@ public class BaseAuthenticationFailureHandle extends SimpleUrlAuthenticationFail
 
         log.info("Login failed!");
 
-        //判断响应类型
-        if (LoginType.JSON.equals(securityProperties.browser.getSingInResponseType())) {
 
-            //设置响应状态
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            //设置响应格式
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-            //将 Authentication 以json形式写回
-            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-        } else {
-            //跳转（默任）
-            super.onAuthenticationFailure(request, response, exception);
-        }
+        //设置响应状态
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        //设置响应格式
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        //将 Authentication 以json形式写回
+        response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
 
 
     }

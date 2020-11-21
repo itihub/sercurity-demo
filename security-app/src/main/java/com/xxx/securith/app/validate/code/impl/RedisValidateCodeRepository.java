@@ -10,6 +10,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,9 +36,9 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
      */
     @Override
     public void save(ServletWebRequest request, ValidateCode validateCode, ValidateCodeType validateCodeType) {
-        // FIXME: 2018/10/21 验证码有效期在validateCode中拿
+        Duration duration = Duration.between(LocalDateTime.now(), validateCode.getExpireTime());
         redisTemplate.opsForValue().set(buildKey(request, validateCodeType)
-                , validateCode, 30, TimeUnit.MINUTES);
+                , validateCode, duration.getSeconds(), TimeUnit.SECONDS);
     }
 
     /**

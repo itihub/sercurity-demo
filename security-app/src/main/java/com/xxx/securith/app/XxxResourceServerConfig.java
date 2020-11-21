@@ -6,6 +6,7 @@ import com.xxx.security.core.authorize.AuthorizeConfigManager;
 import com.xxx.security.core.properties.SecurityConstants;
 import com.xxx.security.core.properties.SecurityProperties;
 import com.xxx.security.core.validate.ValidateCodeSecurityConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,47 +22,41 @@ import org.springframework.social.security.SpringSocialConfigurer;
  * @author: Administrator
  * @date: 2018/10/19 0019
  */
+@RequiredArgsConstructor
 @Configuration
 @EnableResourceServer
 public class XxxResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**引入自定义成功处理器*/
-    @Autowired
-    private AuthenticationSuccessHandler baseAuthenticationSuccessHandle;
+    private final AuthenticationSuccessHandler baseAuthenticationSuccessHandle;
 
     /**引入自定义错误处理器*/
-    @Autowired
-    private AuthenticationFailureHandler baseAuthenticationFailureHandle;
+    private final AuthenticationFailureHandler baseAuthenticationFailureHandle;
 
     /** 短信验证安全配置*/
-    @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     /**
      * 社交配置 即第三方登录介入配置
      * 引入SpringSocialConfigurer
      * @see com.xxx.security.core.social.SocialConfig
      */
-    @Autowired
-    private SpringSocialConfigurer springSocialConfigurer;
+    private final SpringSocialConfigurer springSocialConfigurer;
 
     /**
      * 处理验证码过滤器配置
      */
-    @Autowired
-    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     /**
      * openId换取认证token
      */
-    @Autowired
-    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+    private final OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
     /**
      *权限配置管理器
      */
-    @Autowired
-    private AuthorizeConfigManager authorizeConfigManager;
+    private final AuthorizeConfigManager authorizeConfigManager;
 
     /**
      * 资源服务器配置

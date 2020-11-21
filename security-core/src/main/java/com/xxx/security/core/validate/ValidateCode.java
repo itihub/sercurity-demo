@@ -1,5 +1,6 @@
 package com.xxx.security.core.validate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -50,6 +51,7 @@ public class ValidateCode implements Serializable {
      *
      * @return
      */
+    @JsonIgnore
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(expireTime);
     }

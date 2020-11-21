@@ -2,39 +2,32 @@ package com.xxx.securith.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xxx.securith.app.social.AppSingUpUtils;
-import com.xxx.security.core.properties.SecurityConstants;
-import com.xxx.security.core.support.SimpleResponse;
 import com.xxx.security.core.support.SocialUserInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @description: TODO
  * @author: Administrator
  * @date: 2018/10/24 0024
  */
+@RequiredArgsConstructor
 @RestController
 public class AppSecurityController {
 
-    @Autowired
-    private ProviderSignInUtils providerSignInUtils;
+    private final ProviderSignInUtils providerSignInUtils;
 
-    @Autowired
-    private AppSingUpUtils appSingUpUtils;
+    private final AppSingUpUtils appSingUpUtils;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/social/signUp")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
