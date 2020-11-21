@@ -1,8 +1,8 @@
 package xyz.itihub.demo.config;
 
-import com.xxx.security.core.validate.ValidateCodeGenerator;
-import com.xxx.security.core.validate.image.ImageCode;
 import org.springframework.web.context.request.ServletWebRequest;
+import xyz.itihub.security.core.validate.ValidateCodeGenerator;
+import xyz.itihub.security.core.validate.image.ImageCode;
 
 /**
  * @description: 自定义验证码规则

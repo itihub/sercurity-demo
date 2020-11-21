@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date: 2018/08/24 0024
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.xxx", "xyz.itihub.demo"})
+@ComponentScan(basePackages = {"xyz.itihub", "xyz.itihub.demo"})
 public class DemoApplication {
 
     public static void main(String[] args) {

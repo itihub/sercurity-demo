@@ -1,7 +1,7 @@
 package xyz.itihub.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.xxx.security.core.properties.SecurityProperties;
+import xyz.itihub.security.core.properties.SecurityProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;

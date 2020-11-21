@@ -1,10 +1,10 @@
 package xyz.itihub.demo.config.security;
 
-import com.xxx.security.core.authorize.AuthorizeConfigProvider;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
+import xyz.itihub.security.core.authorize.AuthorizeConfigProvider;
 
 /**
  * @description: 自定义权限配置（使用动态权限认证）

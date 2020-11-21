@@ -1,8 +1,8 @@
 package xyz.itihub.demo.config.security;
 
-import com.xxx.security.core.authentication.mobile.userdetails.MobileUser;
-import com.xxx.security.core.authentication.mobile.userdetails.MobileUserDetails;
-import com.xxx.security.core.authentication.mobile.userdetails.MobileUserDetailsService;
+import xyz.itihub.security.core.authentication.mobile.userdetails.MobileUser;
+import xyz.itihub.security.core.authentication.mobile.userdetails.MobileUserDetails;
+import xyz.itihub.security.core.authentication.mobile.userdetails.MobileUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
